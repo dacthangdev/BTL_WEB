@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BTL.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BTL.Areas.Admin.Controllers
 {
@@ -7,11 +8,12 @@ namespace BTL.Areas.Admin.Controllers
     [Route("Tables")]
     public class TablesController : Controller
     {
+        CsdlwebContext db = new CsdlwebContext();
         [Route("TableHoaDonBan")]
         public IActionResult TableHoaDonBan()
         {
-
-            return View();
+            List<HoaDonBan> list = db.HoaDonBans.ToList();
+            return View(list);
         }
     }
 }
