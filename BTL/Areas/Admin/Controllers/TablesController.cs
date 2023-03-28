@@ -15,5 +15,40 @@ namespace BTL.Areas.Admin.Controllers
             List<HoaDonBan> list = db.HoaDonBans.ToList();
             return View(list);
         }
+
+        [Route("TableHoaDonNhap")]
+        public IActionResult TableHoaDonNhap()
+        {
+            List<HoaDonBan> list = db.HoaDonBans.ToList();
+            return View(list);
+        }
+
+        [Route("TableHoaDonXuat")]
+        public IActionResult TableHoaDonXuat()
+        {
+            List<HoaDonXuat> list = db.HoaDonXuats.ToList();
+            return View(list);
+        }
+
+        [Route("TableNhanVien")]
+        public IActionResult TableNhanVien()
+        {
+            List<NhanVien> list = db.NhanViens.ToList();
+            return View(list);
+        }
+
+        [Route("TableKhachHang")]
+        public IActionResult TableKhachHang()
+        {
+            List<KhachHang> list = db.KhachHangs.ToList();
+            return View(list);
+        }
+
+        [Route("TableNhaCC")]
+        public IActionResult TableNhaCC()
+        {
+            List<NhaCungCap> list = db.NhaCungCaps.ToList();
+            return View(list);
+        }
     }
 }
