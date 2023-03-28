@@ -4,12 +4,13 @@ namespace BTL.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("Admin")]
-    public class HomeAdminController : Controller
+    [Route("Tables")]
+    public class TablesController : Controller
     {
-        [Route("")]
-        [Route("Index")]
-        public IActionResult Index()
+        [Route("TableHoaDonBan")]
+        public IActionResult TableHoaDonBan()
         {
+
             return View();
         }
     }
