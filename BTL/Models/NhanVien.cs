@@ -7,6 +7,8 @@ public partial class NhanVien
 {
     public int Id { get; set; }
 
+    public string HoTen { get; set; }
+
     public DateTime NgaySinh { get; set; }
 
     public bool GioiTinh { get; set; }

@@ -21,7 +21,14 @@
 
     <link rel="stylesheet" href="../main/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="../main/css/jquery.timepicker.css">
+	<script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+	<link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet" />
+	<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js"></script>
+	<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
 
+	<link rel="stylesheet"
+		  href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
+		  type="text/css" />
     
     <link rel="stylesheet" href="../main/css/flaticon.css">
     <link rel="stylesheet" href="../main/css/icomoon.css">
@@ -63,7 +70,7 @@
 	        	<li class="nav-item"><a asp-controller="home" asp-action="menu" class="nav-link">Menu</a></li>
 	        	<li class="nav-item"><a asp-controller="home" asp-action="blog" class="nav-link">Stories</a></li>
 	          <li class="nav-item"><a asp-controller="home" asp-action="contact" class="nav-link">Contact</a></li>
-	          <li class="nav-item cta"><a href="reservation.html" class="nav-link">Book a table</a></li>
+				<li class="nav-item cta"><a asp-controller="home" asp-action="reservation"  class="nav-link">Book a table</a></li>
 	        </ul>
 	      </div>
 	    </div>
@@ -98,6 +105,7 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="../main/js/google-map.js"></script>
   <script src="../main/js/main.js"></script>
+  <script src="../main/js/map_box.js"></script>
     
   </body>
 </html>
