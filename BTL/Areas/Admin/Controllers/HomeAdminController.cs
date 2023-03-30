@@ -4,6 +4,8 @@ namespace BTL.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("Admin")]
+    [Route("Forms")]
+    [Route("Tables")]
     public class HomeAdminController : Controller
     {
         [Route("")]
