@@ -1,0 +1,36 @@
+﻿@model BTL.Models.ChucVu
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "AddChucVu";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
+}
+<main id="main" class="main">
+<h1>AddChucVu</h1>
+
+<h4>ChucVu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddChucVu" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TenCv" class="control-label"></label>
+                <input asp-for="TenCv" class="form-control" />
+                <span asp-validation-for="TenCv" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hsl" class="control-label"></label>
+                <input asp-for="Hsl" class="form-control" />
+                <span asp-validation-for="Hsl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+</main>

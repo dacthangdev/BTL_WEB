@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<BTL.Models.KhachHang>
-
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "TableKhachHang";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
-
+<main id="main" class="main">
 <h1>TableKhachHang</h1>
 
 <p>
@@ -46,3 +46,4 @@
 }
     </tbody>
 </table>
+</main>
