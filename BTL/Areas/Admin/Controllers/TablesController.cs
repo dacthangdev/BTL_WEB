@@ -50,5 +50,12 @@ namespace BTL.Areas.Admin.Controllers
             List<NhaCungCap> list = db.NhaCungCaps.ToList();
             return View(list);
         }
+
+        [Route("TablePhongBan")]
+        public IActionResult TablePhongBan()
+        {
+            List<PhongQl> list = db.PhongQls.ToList();
+            return View(list);
+        }
     }
 }
