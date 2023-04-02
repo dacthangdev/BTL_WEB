@@ -1,6 +1,8 @@
 ﻿using BTL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
+
 
 namespace BTL.Areas.Admin.Controllers
 {
@@ -15,7 +17,7 @@ namespace BTL.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddNhanVien()
         {
-            ViewBag.IdPhong = new SelectList(db.PhongQls.OrderBy(x => x.Id),"Id","TenPhong");
+            ViewBag.IdPhong = new SelectList(db.PhongQls.OrderBy(x => x.Id), "Id", "TenPhong");
             ViewBag.IdCv = new SelectList(db.ChucVus.OrderBy(x => x.Id), "Id", "TenCv");
             return View();
         }
@@ -129,6 +131,7 @@ namespace BTL.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddHangHoa()
         {
+            ViewBag.IdNhaCc = new SelectList(db.NhaCungCaps.OrderBy(x => x.Id), "Id", "TenNcc");
             return View();
         }
         [Route("HangHoa")]
@@ -142,6 +145,123 @@ namespace BTL.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(hang);
+        }
+        [Route("HoaDonBan")]
+        [HttpGet]
+        public IActionResult AddHoaDonBan()
+        {
+            return View();
+        }
+        [Route("HoaDonBan")]
+        [HttpPost]
+        public IActionResult AddHoaDonBan(HoaDonBan hdb)
+        {
+            if (ModelState.IsValid)
+            {
+                db.HoaDonBans.Add(hdb);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(hdb);
+        }
+        [Route("HoaDonNhap")]
+        [HttpGet]
+        public IActionResult AddHoaDonNhap()
+        {
+            return View();
+        }
+
+        [Route("HoaDonNhap")]
+        [HttpPost]
+        public IActionResult AddHoaDonNhap(HoaDonNhap hdn)
+        {
+            if (ModelState.IsValid)
+            {
+                db.HoaDonNhaps.Add(hdn);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(hdn);
+        }
+
+        [Route("HoaDonXuat")]
+        [HttpGet]
+        public IActionResult AddHoaDonXuat()
+        {
+            return View();
+        }
+
+        [Route("HoaDonXuat")]
+        [HttpPost]
+        public IActionResult AddHoaDonXuat(HoaDonXuat hdx)
+        {
+            if (ModelState.IsValid)
+            {
+                db.HoaDonXuats.Add(hdx);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(hdx);
+        }
+
+        [Route("BanAn")]
+        [HttpGet]
+        public IActionResult AddBanAn()
+        {
+            return View();
+        }
+
+        [Route("BanAn")]
+        [HttpPost]
+        public IActionResult AddBanAn(BanAn ban)
+        {
+            if (ModelState.IsValid)
+            {
+                db.BanAns.Add(ban);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(ban);
+        }
+
+        [Route("Menu")]
+        [HttpGet]
+        public IActionResult AddMenu()
+        {
+            return View();
+        }
+
+        [Route("Menu")]
+        [HttpPost]
+        public IActionResult AddMenu(Menu mnu)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Menus.Add(mnu);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(mnu);
+        }
+
+        [Route("LoaiMenu")]
+        [HttpGet]
+        public IActionResult AddLoaiMenu()
+        {
+            return View();
+        }
+
+        [Route("LoaiMenu")]
+        [HttpPost]
+        public IActionResult AddLoaiMenu(LoaiMonAn loaimnu)
+        {
+            if (ModelState.IsValid)
+            {
+                db.LoaiMonAns.Add(loaimnu);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(loaimnu);
         }
     }
 }
