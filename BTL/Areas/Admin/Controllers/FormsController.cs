@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
 
+
 namespace BTL.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -26,6 +27,8 @@ namespace BTL.Areas.Admin.Controllers
         {
             try
             {
+                nv.IdCvNavigation = db.ChucVus.Find(nv.IdCv);
+                nv.IdPhongNavigation = db.PhongQls.Find(nv.IdPhong);
                 db.NhanViens.Add(nv);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -143,7 +146,6 @@ namespace BTL.Areas.Admin.Controllers
             }
             return View(hang);
         }
-
         [Route("HoaDonBan")]
         [HttpGet]
         public IActionResult AddHoaDonBan()
