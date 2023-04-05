@@ -1,4 +1,5 @@
 ﻿using BTL.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
@@ -9,6 +10,7 @@ namespace BTL.Areas.Admin.Controllers
     [Area("Admin")]
     [Route("Admin")]
     [Route("Forms")]
+    [Route("Tables")]
     public class FormsController : Controller
     {
         CsdlwebContext db = new CsdlwebContext();
@@ -23,15 +25,27 @@ namespace BTL.Areas.Admin.Controllers
         }
         [Route("NhanVien")]
         [HttpPost]
-        public IActionResult AddNhanVien(NhanVien nv)
+        public IActionResult AddNhanVien(NhanVien nv, IFormFile formFile)
         {
+            Guid guid = Guid.NewGuid();
+
+            string newfileName = guid.ToString();
+
+            string fileextention = Path.GetExtension(formFile.FileName);
+
+            string fileName = newfileName + fileextention;
+
+            string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Admin\\Images", fileName);
+
+            var stream = new FileStream(uploadpath, FileMode.Create);
+
+            formFile.CopyToAsync(stream);
             try
             {
-                nv.IdCvNavigation = db.ChucVus.Find(nv.IdCv);
-                nv.IdPhongNavigation = db.PhongQls.Find(nv.IdPhong);
+                nv.AnhDaiDien = fileName.ToString();
                 db.NhanViens.Add(nv);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("TableNhanVien");
             }
             catch (Exception ex)
             {
@@ -138,36 +152,50 @@ namespace BTL.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddHangHoa(HangHoa hang)
         {
-            if (ModelState.IsValid)
+            try
             {
                 db.HangHoas.Add(hang);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("TableHangHoa");
             }
-            return View(hang);
+            catch (Exception ex)
+            {
+                return View(hang);
+            }
+            
         }
+
         [Route("HoaDonBan")]
         [HttpGet]
         public IActionResult AddHoaDonBan()
         {
+            ViewBag.IdNv = new SelectList(db.NhanViens.OrderBy(x => x.Id), "Id", "HoTen");
+            ViewBag.IdKh = new SelectList(db.KhachHangs.OrderBy(x => x.Id), "Id", "HoTen");
+            ViewBag.IdBan = new SelectList(db.BanAns.OrderBy(x => x.Id), "Id", "Id");
             return View();
         }
         [Route("HoaDonBan")]
         [HttpPost]
         public IActionResult AddHoaDonBan(HoaDonBan hdb)
         {
-            if (ModelState.IsValid)
+            hdb.SoHd = "HoaDonBan_" + hdb.NgayXuat;
+            try
             {
                 db.HoaDonBans.Add(hdb);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("TableHoaDonBan");
             }
-            return View(hdb);
+            catch (Exception e)
+            {
+                return View(hdb);
+            }
+            
         }
         [Route("HoaDonNhap")]
         [HttpGet]
         public IActionResult AddHoaDonNhap()
         {
+            ViewBag.IdNv = new SelectList(db.NhanViens, "Id", "HoTen");
             return View();
         }
 
@@ -175,19 +203,23 @@ namespace BTL.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddHoaDonNhap(HoaDonNhap hdn)
         {
-            if (ModelState.IsValid)
+            try
             {
                 db.HoaDonNhaps.Add(hdn);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("TableHoaDonNhap");
             }
-            return View(hdn);
+            catch(Exception e)
+            {
+                return View(hdn);
+            }
         }
 
         [Route("HoaDonXuat")]
         [HttpGet]
         public IActionResult AddHoaDonXuat()
         {
+            ViewBag.IdNv = new SelectList(db.NhanViens, "Id", "HoTen");
             return View();
         }
 
@@ -195,19 +227,23 @@ namespace BTL.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddHoaDonXuat(HoaDonXuat hdx)
         {
-            if (ModelState.IsValid)
+            try
             {
                 db.HoaDonXuats.Add(hdx);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(hdx);
+            catch (Exception e)
+            {
+                return View(hdx);
+            }
         }
 
         [Route("BanAn")]
         [HttpGet]
         public IActionResult AddBanAn()
         {
+            ViewBag.IdTang = new SelectList(db.Tangs.OrderBy(x => x.Id), "Id", "TenTang"); ;
             return View();
         }
 
@@ -215,33 +251,55 @@ namespace BTL.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddBanAn(BanAn ban)
         {
-            if (ModelState.IsValid)
+            ViewBag.IdTang = new SelectList(db.Tangs.OrderBy(x => x.Id), "Id", "TenTang"); ;
+            try
             {
                 db.BanAns.Add(ban);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(ban);
+            catch (Exception e)
+            {
+                return View(ban);
+            }
         }
 
         [Route("Menu")]
         [HttpGet]
         public IActionResult AddMenu()
         {
+            ViewBag.IdLoai = new SelectList(db.LoaiMonAns, "Id", "TenLoai");
             return View();
         }
 
         [Route("Menu")]
         [HttpPost]
-        public IActionResult AddMenu(Menu mnu)
+        public IActionResult AddMenu(Menu mnu, IFormFile formFile)
         {
-            if (ModelState.IsValid)
+            Guid guid = Guid.NewGuid();
+
+            string newfileName = guid.ToString();
+
+            string fileextention = Path.GetExtension(formFile.FileName);
+
+            string fileName = newfileName + fileextention;
+
+            string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Admin\\Images", fileName);
+
+            var stream = new FileStream(uploadpath, FileMode.Create);
+
+            formFile.CopyToAsync(stream);
+            mnu.Anh = fileName.ToString();
+            try
             {
                 db.Menus.Add(mnu);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("TableMenu");
             }
-            return View(mnu);
+            catch(Exception e)
+            {
+                return View(mnu);
+            }
         }
 
         [Route("LoaiMenu")]
@@ -262,6 +320,128 @@ namespace BTL.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(loaimnu);
+        }
+        [Route("ChiTietHDB")]
+        [HttpGet]
+        public IActionResult AddChiTietHDB(int idHDB)
+        {
+            ViewBag.IdHdb = new SelectList(db.HoaDonBans.Where(x=>x.Id == idHDB),"Id", "SoHd");
+            ViewBag.IdMenu = new SelectList(db.Menus.OrderBy(x => x.Id), "Id", "TenMon");
+            return View();
+        }
+        [Route("ChiTietHDB")]
+        [HttpPost]
+        public IActionResult AddChiTietHDB(ChitietHdb hdb)
+        {
+            Menu? monan = db.Menus.Where(x => x.Id == hdb.IdMenu).FirstOrDefault();
+            double giatien = hdb.Sl * monan.Gia;
+            hdb.GiaTien = ((int)(giatien - giatien * hdb.KhuyenMai/100));
+            if (hdb.KhuyenMai == null)
+            {
+                hdb.KhuyenMai = 0;
+            }
+            try
+            {
+                ChitietHdb chitietHdb = db.ChitietHdbs.Where(x => x.IdMenu == hdb.IdMenu && x.IdHdb == hdb.IdHdb).FirstOrDefault();
+                if (chitietHdb != null)
+                {
+                    chitietHdb.Sl += hdb.Sl;
+                    chitietHdb.GiaTien += hdb.GiaTien;
+                    db.ChitietHdbs.Update(chitietHdb);
+                    db.SaveChanges();
+                    return RedirectToAction("TableChiTietHDB", routeValues: hdb.IdHdb);
+                }
+                else
+                {
+                    db.ChitietHdbs.Add(hdb);
+                    db.SaveChanges();
+                    return RedirectToAction("TableChiTietHDB", hdb.IdHdb);
+                }
+            }
+            catch (Exception ex)
+            {
+                return View(hdb);
+            }
+        }
+
+        [Route("ChiTietHDN")]
+        [HttpGet]
+        public IActionResult AddChiTietHDN(int idHDN)
+        {
+            ViewBag.IdHdn = new SelectList(db.HoaDonNhaps.Where(x => x.Id == idHDN), "Id", "NgayNhap");
+            ViewBag.IdHh = new SelectList(db.HangHoas, "Id", "TenHh");
+            return View();
+        }
+        [Route("ChiTietHDN")]
+        [HttpPost]
+        public IActionResult AddChiTietHDN(ChitietHdn hdn)
+        {
+            try
+            {
+                db.ChitietHdns.Add(hdn);
+                HangHoa hangHoa = db.HangHoas.Where(x => x.Id == hdn.IdHh).FirstOrDefault();
+                if (hangHoa != null)
+                {
+                    hangHoa.Sl += hdn.Sl;
+                }
+                db.Update(hangHoa);
+                db.SaveChanges();
+                return RedirectToAction("TableChiTietHDN");
+            }
+            catch (Exception e)
+            {
+                return View(hdn);
+            }
+        }
+
+        [Route("ChiTietHDX")]
+        [HttpGet]
+        public IActionResult AddChiTietHDX(int idHDX)
+        {
+            ViewBag.IdHdx = new SelectList(db.HoaDonXuats.Where(x => x.Id == idHDX), "Id", "NgayXuat");
+            ViewBag.IdHh = new SelectList(db.HangHoas, "Id", "TenHh");
+            return View();
+        }
+        [Route("ChiTietHDX")]
+        [HttpPost]
+        public IActionResult AddChiTietHDX(ChitietHdx hdx)
+        {
+            try
+            {
+                db.ChitietHdxes.Add(hdx);
+                HangHoa hangHoa = db.HangHoas.Where(x => x.Id == hdx.IdHh).FirstOrDefault();
+                if (hangHoa != null)
+                {
+                    hangHoa.Sl -= hdx.Sl;
+                }
+                db.Update(hangHoa);
+                db.SaveChanges();
+                return RedirectToAction("TableChiTietHDN");
+            }
+            catch (Exception e)
+            {
+                return View(hdx);
+            }
+        }
+
+        [Route("Tang")]
+        [HttpGet]
+        public IActionResult AddTang()
+        {
+            return View();
+        }
+
+        [Route("Tang")]
+        [HttpPost]
+        public IActionResult AddTang(Tang tang)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Tangs.Add(tang);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(tang);
         }
     }
 }

@@ -5,15 +5,12 @@ namespace BTL.Models;
 
 public partial class DatBan
 {
-    public DateTime ThoiGian { get; set; }
+    public int Id { get; set; }
+    public string? Name_KH { get; set; }
+    public string? Email { get; set; }
+    public string? Phone { get; set; }
+    public DateTime? NgayDat { get; set; }
+    public string? Gio_Nhan { get; set; }
+    public string? Sl { get; set; }
 
-    public int Sl { get; set; }
-
-    public int IdBan { get; set; }
-
-    public int IdKh { get; set; }
-
-    public virtual BanAn IdBanNavigation { get; set; } = null!;
-
-    public virtual KhachHang IdKhNavigation { get; set; } = null!;
 }

@@ -4,7 +4,7 @@ const map = new mapboxgl.Map({
     container: "map_box", // container ID
     style: "mapbox://styles/mapbox/streets-v12", // style URL
     center: [105.80372, 21.02716], // starting position [lng, lat]
-    zoom: 10, // starting zoom
+    zoom: 17, // starting zoom
 });
 var marker = new mapboxgl.Marker({
     color: "red", //Màu của Marker là đỏ
@@ -19,7 +19,7 @@ var popup = new mapboxgl.Popup({
     closeOnClick: false,
     anchor: 'left',
 }).setLngLat([105.80372, 21.02716])
-    .setHTML("<h1>Hà Nội nè!</h1>")
+    .setHTML("<h1>Nhà hàng Hà Nội</h1>")
     .addTo(map);
 
 map.addControl(
@@ -60,14 +60,3 @@ scale.setUnit("metric");
 map.addControl(new mapboxgl.FullscreenControl());
 var language = new MapboxLanguage({ defaultLanguage: "vi" });
 map.addControl(language);
-document.getElementById("buttons").addEventListener("click", (event) => {
-    const language = event.target.id.substr("button-".length);
-    console.log(language);
-    // Use setLayoutProperty to set the value of a layout property in a style layer.
-    // The three arguments are the id of the layer, the name of the layout property,
-    // and the new property value.
-    map.setLayoutProperty("country-label", "text-field", [
-        "get",
-        `name_${language}`,
-    ]);
-});

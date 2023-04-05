@@ -174,24 +174,26 @@ public partial class CsdlwebContext : DbContext
 
         modelBuilder.Entity<DatBan>(entity =>
         {
-            entity.HasKey(e => new { e.IdBan, e.IdKh }).HasName("PK__DatBan__9C9DAA311AFD885E");
-
+            entity.HasKey(e => e.Id).HasName("PK__DatBan__3214EC270B87AB30");
             entity.ToTable("DatBan");
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Sl)
+            .HasMaxLength(10)
+            .HasColumnName("Sl");
+            entity.Property(e => e.NgayDat).HasColumnType("date");
+            entity.Property(e => e.Name_KH)
+               .HasMaxLength(50)
+               .HasColumnName("Name_KH");
+            entity.Property(e => e.Email)
+               .HasMaxLength(50)
+               .HasColumnName("Email");
+            entity.Property(e => e.Phone)
+               .HasMaxLength(50)
+               .HasColumnName("Phone");
+            entity.Property(e => e.Gio_Nhan)
+               .HasMaxLength(50)
+               .HasColumnName("Gio_Nhan");
 
-            entity.Property(e => e.IdBan).HasColumnName("ID_Ban");
-            entity.Property(e => e.IdKh).HasColumnName("ID_KH");
-            entity.Property(e => e.Sl).HasColumnName("SL");
-            entity.Property(e => e.ThoiGian).HasColumnType("datetime");
-
-            entity.HasOne(d => d.IdBanNavigation).WithMany(p => p.DatBans)
-                .HasForeignKey(d => d.IdBan)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__DatBan__ID_Ban__440B1D61");
-
-            entity.HasOne(d => d.IdKhNavigation).WithMany(p => p.DatBans)
-                .HasForeignKey(d => d.IdKh)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__DatBan__ID_KH__44FF419A");
         });
 
         modelBuilder.Entity<HangHoa>(entity =>

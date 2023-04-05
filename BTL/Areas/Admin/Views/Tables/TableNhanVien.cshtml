@@ -41,7 +41,7 @@
 @foreach (var item in Model) {
         <tr>
              <td>
-                @Html.DisplayFor(modelItem => item.AnhDaiDien)
+                 <img src="@Url.Content("~/Admin/Images/" + item.AnhDaiDien)" alt="" width="50px" height="50px"/>    
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.HoTen)
@@ -49,9 +49,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NgaySinh)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GioiTinh)
-            </td>
+            @if (item.GioiTinh)
+            {
+                <td>Nam</td>
+            }
+            else
+            {
+                <td>Nữ</td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.LuongCb)
             </td>

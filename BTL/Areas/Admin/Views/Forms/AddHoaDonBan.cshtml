@@ -1,23 +1,18 @@
 ﻿@model BTL.Models.HoaDonBan
-
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "AddHoaDonBan";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
+<main id="main" class="main">
+<h1>Thêm Hóa Đơn Bán</h1>
 
-<h1>AddHoaDonBan</h1>
-
-<h4>HoaDonBan</h4>
+<h4>Hóa Đơn Bán</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddHoaDonBan">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SoHd" class="control-label"></label>
-                <input asp-for="SoHd" class="form-control" />
-                <span asp-validation-for="SoHd" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="NgayXuat" class="control-label"></label>
                 <input asp-for="NgayXuat" class="form-control" />
@@ -46,3 +41,4 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+</main>

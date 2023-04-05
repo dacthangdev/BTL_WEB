@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BTL.Models;
 
@@ -30,8 +31,8 @@ public partial class NhanVien
     public virtual ICollection<HoaDonNhap> HoaDonNhaps { get; } = new List<HoaDonNhap>();
 
     public virtual ICollection<HoaDonXuat> HoaDonXuats { get; } = new List<HoaDonXuat>();
-
+    [ForeignKey(nameof(IdCv))]
     public virtual ChucVu IdCvNavigation { get; set; } = null!;
-
+    [ForeignKey(nameof(IdPhong))]
     public virtual PhongQl IdPhongNavigation { get; set; } = null!;
 }

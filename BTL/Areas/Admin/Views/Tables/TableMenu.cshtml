@@ -1,29 +1,29 @@
-﻿@model IEnumerable<BTL.Models.KhachHang>
+﻿@model IEnumerable<BTL.Models.Menu>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "TableKhachHang";
+    ViewData["Title"] = "TableMenu";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
 <main id="main" class="main">
-<h1>TableKhachHang</h1>
+<h1>Bảng Menu</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-controller="Forms" asp-action="AddMenu">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.HoTen)
+                @Html.DisplayNameFor(model => model.TenMon)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sdt)
+                @Html.DisplayNameFor(model => model.Gia)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.Anh)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Img)
+                @Html.DisplayNameFor(model => model.IdLoaiNavigation)
             </th>
             <th></th>
         </tr>
@@ -32,20 +32,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.HoTen)
+                @Html.DisplayFor(modelItem => item.TenMon)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sdt)
+                @Html.DisplayFor(modelItem => item.Gia)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                <img src="@Url.Content("~/Admin/Images/" + item.Anh)" alt="" width="50px" height="50px"/>
             </td>
             <td>
-                <img src="@Url.Content("~/Admin/Images/" + item.Img)" alt="" width="50px" height="50px" />
+                @Html.DisplayFor(modelItem => item.IdLoaiNavigation.TenLoai)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

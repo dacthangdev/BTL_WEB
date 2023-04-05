@@ -16,7 +16,5 @@ public partial class KhachHang
     [DisplayName("Ảnh")]
     public string Img { get; set; }
 
-    public virtual ICollection<DatBan> DatBans { get; } = new List<DatBan>();
-
     public virtual ICollection<HoaDonBan> HoaDonBans { get; } = new List<HoaDonBan>();
 }
