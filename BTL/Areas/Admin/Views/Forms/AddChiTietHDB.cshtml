@@ -1,0 +1,45 @@
+﻿@model BTL.Models.ChitietHdb
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "AddChiTietHDB";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
+}
+<main id="main" class="main">
+<h1>Thêm chi tiết hóa đơn bán</h1>
+
+<h4>Chi tiết hóa đơn bán</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddChiTietHDB">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Sl" class="control-label"></label>
+                <input asp-for="Sl" class="form-control" />
+                <span asp-validation-for="Sl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KhuyenMai" class="control-label"></label>
+                <input asp-for="KhuyenMai" class="form-control" />
+                <span asp-validation-for="KhuyenMai" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdMenu" class="control-label"></label>
+                <select asp-for="IdMenu" class ="form-control" asp-items="ViewBag.IdMenu"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdHdb" class="control-label"></label>
+                <select asp-for="IdHdb" class ="form-control" asp-items="ViewBag.IdHdb"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</main>

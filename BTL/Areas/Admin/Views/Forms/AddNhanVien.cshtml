@@ -1,4 +1,5 @@
-﻿@model BTL.Models.NhanVien
+﻿@using (Html.BeginForm("AddNhanVien", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@model BTL.Models.NhanVien
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "AddNhanVien";
@@ -11,11 +12,11 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddNhanVien" method="post">
+        <form asp-action="AddNhanVien" method="post" enctype = "multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="AnhDaiDien" class="control-label"></label>
-                <input asp-for="AnhDaiDien" class="form-control" />
+                <input type="file" name="formFile" asp-for="AnhDaiDien" class="form-control" />
                 <span asp-validation-for="AnhDaiDien" class="text-danger"></span>
             </div>
             <div class="form-group">

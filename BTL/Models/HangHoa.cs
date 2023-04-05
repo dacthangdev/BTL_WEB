@@ -19,6 +19,6 @@ public partial class HangHoa
     public virtual ICollection<ChitietHdn> ChitietHdns { get; } = new List<ChitietHdn>();
 
     public virtual ICollection<ChitietHdx> ChitietHdxes { get; } = new List<ChitietHdx>();
-
+    [DisplayName("Nhà Cung Cấp")]
     public virtual NhaCungCap IdNhaCcNavigation { get; set; } = null!;
 }

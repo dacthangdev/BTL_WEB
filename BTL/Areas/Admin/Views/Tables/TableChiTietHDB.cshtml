@@ -1,0 +1,59 @@
+﻿@model IEnumerable<BTL.Models.ChitietHdb>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "TableChiTietHDB";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
+}
+<main id="main" class="main">
+<h1>Bảng Chi Tiết Hóa Đơn Bán</h1>
+
+<p>
+        <a asp-controller="Forms" asp-action="AddChiTietHDB" asp-route-idHDB="@ViewBag.IdHdb">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GiaTien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KhuyenMai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdHdbNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMenuNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GiaTien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KhuyenMai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdHdbNavigation.SoHd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMenuNavigation.TenMon)
+            </td>
+            <td>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</main>

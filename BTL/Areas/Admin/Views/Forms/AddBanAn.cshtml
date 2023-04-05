@@ -1,13 +1,13 @@
 ﻿@model BTL.Models.BanAn
-
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "AddBanAn";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
+<main id="main" class="main">
+<h1>Thêm Bàn Ăn</h1>
 
-<h1>AddBanAn</h1>
-
-<h4>BanAn</h4>
+<h4>Bàn Ăn</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -33,3 +33,4 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+</main>

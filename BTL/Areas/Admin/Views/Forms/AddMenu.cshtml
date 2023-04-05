@@ -1,17 +1,18 @@
-﻿@model BTL.Models.Menu
-
+﻿@using (Html.BeginForm("AddMenu", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@model BTL.Models.Menu
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "AddMenu";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
-
-<h1>AddMenu</h1>
+<main id="main" class="main">
+<h1>Thêm Menu</h1>
 
 <h4>Menu</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddMenu">
+        <form asp-action="AddMenu" enctype = "multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="TenMon" class="control-label"></label>
@@ -25,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Anh" class="control-label"></label>
-                <input asp-for="Anh" class="form-control" />
+                <input type="file" name="formFile" asp-for="Anh" class="form-control" />
                 <span asp-validation-for="Anh" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -42,4 +43,4 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+</main>

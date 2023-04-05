@@ -1,0 +1,40 @@
+﻿@model BTL.Models.ChitietHdn
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "AddChiTietHDN";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
+}
+<main id="main" class="main">
+<h1>Thêm Chi tiết hóa đơn nhập</h1>
+
+<h4>Chi tiết hóa đơn nhập</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddChiTietHDN">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Sl" class="control-label"></label>
+                <input asp-for="Sl" class="form-control" />
+                <span asp-validation-for="Sl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdHh" class="control-label"></label>
+                <select asp-for="IdHh" class ="form-control" asp-items="ViewBag.IdHh"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdHdn" class="control-label"></label>
+                <select asp-for="IdHdn" class ="form-control" asp-items="ViewBag.IdHdn"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</main>

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<BTL.Models.ChitietHdn>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "TableChiTietHDN";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
+}
+<main id="main" class="main">
+<h1>Bảng Chi Tiết Hóa Đơn Nhập</h1>
+
+<p>
+    <a asp-controller="Forms" asp-action="AddChiTietHDN" asp-route-idHDN="@ViewBag.IdHdn">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdHdnNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdHhNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdHdnNavigation.NgayNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdHhNavigation.TenHh)
+            </td>
+            <td>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</main>
