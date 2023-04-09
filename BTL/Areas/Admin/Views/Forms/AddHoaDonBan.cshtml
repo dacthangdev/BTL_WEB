@@ -4,7 +4,7 @@
     ViewData["Title"] = "AddHoaDonBan";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
-<main id="main" class="main">
+
 <h1>Thêm Hóa Đơn Bán</h1>
 
 <h4>Hóa Đơn Bán</h4>
@@ -17,6 +17,16 @@
                 <label asp-for="NgayXuat" class="control-label"></label>
                 <input asp-for="NgayXuat" class="form-control" />
                 <span asp-validation-for="NgayXuat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TongTien" class="control-label"></label>
+                <input asp-for="TongTien" class="form-control" />
+                <span asp-validation-for="TongTien" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KhuyenMai" class="control-label"></label>
+                <input asp-for="KhuyenMai" class="form-control" />
+                <span asp-validation-for="KhuyenMai" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IdNv" class="control-label"></label>
@@ -40,5 +50,3 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
-</main>

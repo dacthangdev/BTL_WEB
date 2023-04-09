@@ -18,11 +18,11 @@ namespace BTL.Controllers
         public bool AddDatBan(string name, string email, string phone, DateTime date, string time, string person)
         {
             DatBan datBan = new DatBan();
-            datBan.Name_KH = name;
+            datBan.NameKh = name;
             datBan.Email = email;
             datBan.Phone = phone;
-            datBan.NgayDat = date;
-            datBan.Gio_Nhan = time;
+            datBan.Ngaydat = date;
+            datBan.GioNhan = time;
             datBan.Sl = person;         
             try
             {

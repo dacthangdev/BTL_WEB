@@ -4,7 +4,7 @@
     ViewData["Title"] = "TableHangHoa";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
-<main id="main" class="main">
+
 <h1>Bảng Hàng hóa</h1>
 
 <p>
@@ -44,12 +44,10 @@
                 @Html.DisplayFor(modelItem => item.IdNhaCcNavigation.TenNcc)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="EditHangHoa" asp-controller="Forms" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="DeleteHangHoa" asp-controller="Forms" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-</main>

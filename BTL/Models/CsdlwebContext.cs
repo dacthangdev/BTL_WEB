@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BTL.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BTL.Models;
@@ -16,7 +17,7 @@ public partial class CsdlwebContext : DbContext
     }
 
     public virtual DbSet<BanAn> BanAns { get; set; }
-
+    public virtual DbSet<Blog> Blogs { get; set; }
     public virtual DbSet<ChitietHdb> ChitietHdbs { get; set; }
 
     public virtual DbSet<ChitietHdn> ChitietHdns { get; set; }
@@ -52,6 +53,7 @@ public partial class CsdlwebContext : DbContext
     public virtual DbSet<Tang> Tangs { get; set; }
 
     public virtual DbSet<TinhTrang> TinhTrangs { get; set; }
+    public virtual DbSet<Tuser> Tusers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -73,6 +75,24 @@ public partial class CsdlwebContext : DbContext
                 .HasForeignKey(d => d.IdTang)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__BanAn__ID_Tang__3B75D760");
+        });
+
+        modelBuilder.Entity<Blog>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Blog__3214EC27A4A94B7E");
+
+            entity.ToTable("Blog");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Anh).HasMaxLength(50);
+            entity.Property(e => e.Cmt).HasMaxLength(1000);
+            entity.Property(e => e.NgayDang).HasColumnType("datetime");
+            entity.Property(e => e.NguoiCmt)
+                .HasMaxLength(50)
+                .HasColumnName("Nguoi_cmt");
+            entity.Property(e => e.NoiDung).HasMaxLength(3000);
+            entity.Property(e => e.TacGia).HasMaxLength(50);
+            entity.Property(e => e.TieuDe).HasMaxLength(500);
         });
 
         modelBuilder.Entity<ChitietHdb>(entity =>
@@ -175,25 +195,26 @@ public partial class CsdlwebContext : DbContext
         modelBuilder.Entity<DatBan>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__DatBan__3214EC270B87AB30");
-            entity.ToTable("DatBan");
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Sl)
-            .HasMaxLength(10)
-            .HasColumnName("Sl");
-            entity.Property(e => e.NgayDat).HasColumnType("date");
-            entity.Property(e => e.Name_KH)
-               .HasMaxLength(50)
-               .HasColumnName("Name_KH");
-            entity.Property(e => e.Email)
-               .HasMaxLength(50)
-               .HasColumnName("Email");
-            entity.Property(e => e.Phone)
-               .HasMaxLength(50)
-               .HasColumnName("Phone");
-            entity.Property(e => e.Gio_Nhan)
-               .HasMaxLength(50)
-               .HasColumnName("Gio_Nhan");
 
+            entity.ToTable("DatBan");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .HasColumnName("email");
+            entity.Property(e => e.GioNhan)
+                .HasMaxLength(50)
+                .HasColumnName("gio_nhan");
+            entity.Property(e => e.NameKh)
+                .HasMaxLength(50)
+                .HasColumnName("name_kh");
+            entity.Property(e => e.Ngaydat)
+                .HasColumnType("date")
+                .HasColumnName("ngaydat");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(50)
+                .HasColumnName("phone");
+            entity.Property(e => e.Sl).HasMaxLength(10);
         });
 
         modelBuilder.Entity<HangHoa>(entity =>
@@ -233,8 +254,7 @@ public partial class CsdlwebContext : DbContext
 
             entity.HasOne(d => d.IdBanNavigation).WithMany(p => p.HoaDonBans)
                 .HasForeignKey(d => d.IdBan)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__HoaDonBan__ID_Ba__5535A963");
+                .HasConstraintName("FK__HoaDonBan__ID_Ba__5AEE82B9");
 
             entity.HasOne(d => d.IdKhNavigation).WithMany(p => p.HoaDonBans)
                 .HasForeignKey(d => d.IdKh)
@@ -242,8 +262,7 @@ public partial class CsdlwebContext : DbContext
 
             entity.HasOne(d => d.IdNvNavigation).WithMany(p => p.HoaDonBans)
                 .HasForeignKey(d => d.IdNv)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__HoaDonBan__ID_NV__534D60F1");
+                .HasConstraintName("FK__HoaDonBan__ID_NV__5BE2A6F2");
         });
 
         modelBuilder.Entity<HoaDonNhap>(entity =>
@@ -287,6 +306,7 @@ public partial class CsdlwebContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.HoTen).HasMaxLength(50);
+            entity.Property(e => e.Img).HasMaxLength(50);
             entity.Property(e => e.Sdt)
                 .HasMaxLength(50)
                 .HasColumnName("SDT");
@@ -338,6 +358,8 @@ public partial class CsdlwebContext : DbContext
             entity.ToTable("NhanVien");
 
             entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.AnhDaiDien).HasMaxLength(50);
+            entity.Property(e => e.HoTen).HasMaxLength(50);
             entity.Property(e => e.IdCv).HasColumnName("ID_CV");
             entity.Property(e => e.IdPhong).HasColumnName("ID_Phong");
             entity.Property(e => e.LuongCb).HasColumnName("LuongCB");
@@ -382,6 +404,18 @@ public partial class CsdlwebContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.TrangThat).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Tuser>(entity =>
+        {
+            entity.HasKey(e => e.Username).HasName("pk_tuser");
+
+            entity.ToTable("TUser");
+
+            entity.Property(e => e.Username).HasMaxLength(100);
+            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.HoTen).HasMaxLength(50);
+            entity.Property(e => e.Password).HasMaxLength(100);
         });
 
         OnModelCreatingPartial(modelBuilder);

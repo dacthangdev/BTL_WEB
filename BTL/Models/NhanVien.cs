@@ -9,7 +9,7 @@ public partial class NhanVien
 {
     public int Id { get; set; }
     [DisplayName("Ảnh Đại Diện")]
-    public string AnhDaiDien { get; set; }
+    public string? AnhDaiDien { get; set; }
     [DisplayName("Họ và Tên")]
     public string HoTen { get; set; }
 

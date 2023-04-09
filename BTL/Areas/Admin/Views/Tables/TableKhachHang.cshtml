@@ -4,11 +4,10 @@
     ViewData["Title"] = "TableKhachHang";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
-<main id="main" class="main">
 <h1>TableKhachHang</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="AddKhachHang" asp-controller="Forms">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -40,16 +39,21 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
-            <td>
+            @if(item.Img != null){
+                <td>
                 <img src="@Url.Content("~/Admin/Images/" + item.Img)" alt="" width="50px" height="50px" />
             </td>
+            }
+            else{
+                 <td>
+                <img src="" alt="" width="50px" height="50px" />
+            </td>
+            }
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-controller="Forms"asp-action="EditKhachHang" asp-route-IdKH="@item.Id">Edit</a> |
+                <a asp-controller="Forms"asp-action="DeleteKhachHang" asp-route-IdKH="@item.Id">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-</main>

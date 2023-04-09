@@ -1,0 +1,32 @@
+﻿
+@{
+
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('../../main/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+          <div class="col-md-9 ftco-animate text-center mb-4">
+            <h1 class="mb-2 bread">Blog</h1>
+            <p class="breadcrumbs"><span class="mr-2"><a asp-action="Index" asp-controller="Home">Home <i class="ion-ios-arrow-forward"></i></a></span>
+                    <span>
+                        <a href="@Url.Action("Blog", "Home")">Blog <i class="ion-ios-arrow-forward"></i></a>
+                        <span><a href="@Url.Action("ViewBlog", "Home")">ViewBlog </a></span>
+                </p>
+          </div>
+        </div>
+      </div>
+    </section>
+		<section class="ftco-section bg-light">
+			<div class="container">
+				<div class="row">
+		@RenderBody()
+
+          </div>
+			</div>
+		</section>

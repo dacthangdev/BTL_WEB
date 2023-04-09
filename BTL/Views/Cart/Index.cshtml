@@ -1,0 +1,224 @@
+﻿@model List<BTL.ModelsView.CartItem>
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('../main/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+          <div class="col-md-9 ftco-animate text-center mb-4">
+            <h1 class="mb-2 bread">Cart</h1>
+            <p class="breadcrumbs"><span class="mr-2"><a asp-controller="Home" asp-action="Index">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Cart <i class="ion-ios-arrow-forward"></i></span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+	<style>
+	.button-cart{
+		display: inline-block;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top:10px;
+  margin-left:15px;
+	}
+	table {
+	  width: 100%;
+	  border-collapse: collapse;
+	  border-spacing: 0;
+	}
+
+	th, td {
+	  text-align: left;
+	  padding: 8px;
+	  border-bottom: 1px solid #ddd;
+	}
+
+	th {
+	  background-color: #f2f2f2;
+	}
+
+	td img {
+	  max-width: 100px;
+	}
+
+	input[type=number] {
+	  width: 50px;
+	  text-align: center;
+	}
+
+	td:last-child {
+	  font-weight: bold;
+	}
+
+	td a {
+	  color: red;
+	}
+
+	td a:hover {
+	  color: #800000;
+	}
+
+	td:first-child, td:nth-child(2), td:nth-child(3) {
+	  width: 20%;
+	}
+
+	td:nth-child(4), td:nth-child(5), td:last-child {
+	  width: 15%;
+	}
+
+	.col-lg-4 {
+	  display: flex;
+	  flex-direction: column;
+	}
+
+	table:nth-child(2) {
+	  margin-top: 30px;
+	}
+
+	table:nth-child(2) td:first-child {
+	  font-weight: bold;
+	}
+
+	table:nth-child(2) td:last-child {
+	  text-align: right;
+	}
+
+	h3 {
+	  margin-top: 40px;
+	}
+
+	form {
+	  display: flex;
+	  flex-direction: column;
+	}
+
+	form input[type=text] {
+	  padding: 8px;
+	  margin-bottom: 10px;
+	}
+
+	form input[type=submit] {
+	  padding: 8px;
+	  background-color: #4CAF50;
+	  color: white;
+	  border: none;
+	  cursor: pointer;
+	}
+
+	form input[type=submit]:hover {
+	  background-color: #3e8e41;
+	}
+	</style>
+@if(Model != null && Model.Count() > 0)
+{
+<div class="mt-150 mb-150">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-md-12">
+				<div>
+					<table>
+						<thead>
+							<tr>
+								<th>Xóa</th>
+								<th>Hình Ảnh</th>
+								<th>Tên Món</th>
+								<th>Giá</th>
+								<th>Số lượng</th>
+								<th>Thành tiền</th>
+							</tr>
+						</thead>
+						<tbody>
+								@foreach(var item in Model)
+								{
+									<tr>
+										<td><a onclick="RemoveCart(@item.menu.Id)" href=""><i class="fa fa-window-close"></i></a></td>
+										<td><img src="@Url.Content("~/ProductImages/anhWeb/" + item.menu.Anh)" alt=""></td>
+										<td>@item.menu.TenMon</td>
+										<td>@item.menu.Gia</td>
+										<td><input id="amount_change" data-mamenu="@item.menu.Id" type="number" value="@item.amount" placeholder="0"></td>
+										<td>@item.TotalMoney</td>
+									</tr>
+								}
+
+							
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div>
+					<table>
+						<thead>
+							<tr>
+								<th>Total</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><strong>Subtotal: </strong></td>
+								<td>@Model.Sum(x=>x.TotalMoney).ToString("#,##0") VND</td>
+							</tr>
+						</tbody>
+					</table>
+					<div >
+						<a asp-action="CheckOut" asp-controller="Cart" class="button-cart">Check Out</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+}
+@section Scripts{
+<script>
+	function RemoveCart(menu_id) {
+		var url = 'https://localhost:7000/api/cart/remove?id=' + menu_id;
+		$.ajax({
+			url: url,
+			type: "POST",
+			dataType: "JSON",
+			contentType: "JSON",
+			success: function (result) {
+            
+			},
+			error: function (xhr, textStatus, errorThrown) {
+			
+			}
+		});
+	};
+const input = document.getElementById("amount_change");
+
+// Add an event listener for the "change" event
+//input.addEventListener("change", function() {
+//  // Reload the current page
+//  location.reload();
+//});
+$('#amount_change').change(function() {
+	var menu_id = $(this).attr('data-mamenu');
+	var amount = parseInt($(this).val());
+	var url = 'https://localhost:7000/api/cart/update?id=' + menu_id +'&amount='+amount;
+	$.ajax({
+        url: url,
+        type: "POST",
+		dataType: "JSON",
+		contentType: "JSON",
+        success: function (result) {
+			location.reload();
+        },
+        error: function (xhr, textStatus, errorThrown) {
+			location.reload();
+        }
+    });
+});
+</script>
+}
+
+<!-- end cart -->

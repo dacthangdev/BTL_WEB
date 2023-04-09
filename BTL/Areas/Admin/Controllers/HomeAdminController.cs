@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BTL.Models.Authentication;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BTL.Areas.Admin.Controllers
 {
@@ -6,6 +7,7 @@ namespace BTL.Areas.Admin.Controllers
     [Route("Admin")]
     [Route("Forms")]
     [Route("Tables")]
+    [Authentication]
     public class HomeAdminController : Controller
     {
         [Route("")]

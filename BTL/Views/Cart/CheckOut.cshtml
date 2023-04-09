@@ -1,0 +1,196 @@
+﻿@model List<BTL.ModelsView.CartItem>
+@{
+    ViewData["Title"] = "CheckOut";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url('../main/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+          <div class="col-md-9 ftco-animate text-center mb-4">
+            <h1 class="mb-2 bread">Cart</h1>
+            <p class="breadcrumbs"><span class="mr-2"><a asp-controller="Cart" asp-action="Index">Cart <i class="ion-ios-arrow-forward"></i></a></span> <span>CheckOut <i class="ion-ios-arrow-forward"></i></span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-decoration-underline">THÔNG TIN ĐƠN HÀNG</h2>
+
+            <form method="post">
+                @if (@ViewBag.Customer != null)
+                {
+                   <div class="form-group">
+                    <label for="usr">Họ và tên</label>
+                    <input type="text" class="form-control" id="usr" value="@ViewBag.Customer.HoTen" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="email" value="@ViewBag.Customer.Email" />
+                </div>
+                <div class="form-group">
+                    <label for="sdt">Số điện thoại</label>
+                    <input type="number" class="form-control" id="sdt" value="@ViewBag.Customer.Sdt" />
+                </div>
+                <div class="form-group">
+                    <label for="usr">Địa chỉ nhận hàng</label>
+                    <input type="text" class="form-control" id="addrs" />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label for="usr">Họ và tên</label>
+                        <input type="text" class="form-control" id="usr">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="sdt">Số điện thoại</label>
+                        <input type="number" class="form-control" id="sdt"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="usr">Địa chỉ nhận hàng</label>
+                        <input type="text" class="form-control" id="addrs" />
+                    </div>
+                }
+
+            </form>
+        </div>
+        <div class="col-6">
+            <h2>THÔNG TIN ĐƠN HÀNG</h2>
+            <div class="row">
+                <p class="col-6">Sản Phẩm</p>
+                <p class="col-6">Thành Tiền</p>
+            </div>
+            <hr>
+            <div class="row">
+                @foreach(var item in Model)
+                {
+                    <div class="col-6 d-inline-flex">
+                        <p>@item.menu.TenMon</p>
+                        <p class="font-weight-bold"> x @item.amount</p>
+                    </div>
+                    <div class="col-6">
+                        <p>@item.TotalMoney đồng</p>
+                    </div>
+                }
+                
+
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-6">
+                    <p class="font-weight-bold">Tổng đơn hàng</p>
+
+                </div>
+                <div class="col-6">
+                    <p class="font-weight-bold">@Model.Sum(x=>x.TotalMoney).ToString("#,##0") đồng</p>
+
+                </div>
+
+            </div>
+
+            <p onclick="CODCLick()" class="font-weight-bold">
+                Thanh toán khi giao hàng(COD)
+            </p>
+            <p id="COD" style="display:block;">khách hàng sẽ thanh toán khi nhận hàng</p>
+            <p onclick="BANKCLick()" class="font-weight-bold">Chuyển khoản qua ngân hàng</p>
+                <p id="BANK" style="display:none;">STK: 123456789 VCB</p>
+                <p id="BANK_name" style="display:none;">Nguyễn Đắc Thắng</p>
+            <p onclick="MomoCLick()" class="font-weight-bold">Thanh toán qua MOMO</p>
+                <p id="MOMO" style="display:none;">SĐT: 123456789</p>
+                <p id="MOMO_name" style="display:none;">Nguyễn Đắc Thắng</p>
+            <div class="row">
+                <button onclick="confirmCheckOut()" class="btn btn-dark text-white btn-block">XÁC NHẬN ĐẶT HÀNG</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+function CODCLick() {
+  var cod = document.getElementById("COD");
+  var bank = document.getElementById("BANK");
+  var momo = document.getElementById("MOMO");
+  var bank_name = document.getElementById("BANK_name");
+  var momo_name = document.getElementById("MOMO_name");
+  if (cod.style.display === "none") {
+    cod.style.display = "block";
+    bank.style.display = "none";
+    momo.style.display = "none";
+    bank_name.style.display = "none";
+    momo_name.style.display = "none";
+  } else {
+    cod.style.display = "none";
+    bank.style.display = "none";
+    momo.style.display = "none";
+    bank_name.style.display = "none";
+    momo_name.style.display = "none";
+  }
+};
+function BANKCLick() {
+  var cod = document.getElementById("COD");
+  var bank = document.getElementById("BANK");
+  var momo = document.getElementById("MOMO");
+  var bank_name = document.getElementById("BANK_name");
+  var momo_name = document.getElementById("MOMO_name");
+  if (bank.style.display === "none") {
+    cod.style.display = "none";
+    bank.style.display = "block";
+    momo.style.display = "none";
+    bank_name.style.display = "block";
+    momo_name.style.display = "none";
+  } else {
+    cod.style.display = "none";
+    bank.style.display = "none";
+    momo.style.display = "none";
+    bank_name.style.display = "none";
+    momo_name.style.display = "none";
+  }
+};
+function MomoCLick() {
+  var cod = document.getElementById("COD");
+  var bank = document.getElementById("BANK");
+  var momo = document.getElementById("MOMO");
+  var bank_name = document.getElementById("BANK_name");
+  var momo_name = document.getElementById("MOMO_name");
+  if (momo.style.display === "none") {
+    cod.style.display = "none";
+    bank.style.display = "none";
+    momo.style.display = "block";
+    bank_name.style.display = "none";
+    momo_name.style.display = "block";
+  } else {
+    cod.style.display = "none";
+    bank.style.display = "none";
+    momo.style.display = "none";
+    bank_name.style.display = "none";
+    momo_name.style.display = "none";
+  }
+};
+	function confirmCheckOut() { 
+	var url = 'https://localhost:7000/api/cart/checkout?TenKhachHang=' +
+	$('#usr').val() + '&Email=' + $('#email').val() + '&SDT=' + $('#sdt').val() + '&Diachi=' + $('#addrs').val();
+	$.ajax({
+		url: url,
+	method: 'POST',
+	contentType: 'json',
+	dataType: 'json',
+	error: function (response) {
+		alert("Xác nhận đơn hàng thành công");
+		},
+	success: function (reponse) {
+		alert("Không thành công");
+		}
+	});
+};
+</script>
+}

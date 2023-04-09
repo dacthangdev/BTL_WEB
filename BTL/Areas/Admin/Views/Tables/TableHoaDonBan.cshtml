@@ -4,7 +4,7 @@
     ViewData["Title"] = "TableHoaDonBan";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
-<main id="main" class="main">
+
 <h1>Hóa Đơn Bán</h1>
 
 <p>
@@ -18,6 +18,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NgayXuat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TongTien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KhuyenMai)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdBanNavigation)
@@ -40,6 +46,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NgayXuat)
             </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.TongTien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KhuyenMai)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdBanNavigation.Id)
             </td>
@@ -51,7 +63,6 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="TableHoaDonBanDetail" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
                 <a asp-controller="Tables" asp-action="TableChiTietHDB" asp-route-idHDB="@item.Id">Chi Tiết Hóa Đơn</a>
             </td>
@@ -59,4 +70,3 @@
 }
     </tbody>
 </table>
-</main>

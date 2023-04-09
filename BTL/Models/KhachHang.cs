@@ -14,7 +14,7 @@ public partial class KhachHang
     [DisplayName("Email")]
     public string Email { get; set; } = null!;
     [DisplayName("Ảnh")]
-    public string Img { get; set; }
+    public string? Img { get; set; }
 
     public virtual ICollection<HoaDonBan> HoaDonBans { get; } = new List<HoaDonBan>();
 }

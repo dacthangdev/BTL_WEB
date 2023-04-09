@@ -4,7 +4,7 @@
     ViewData["Title"] = "TableChiTietHDB";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
-<main id="main" class="main">
+
 <h1>Bảng Chi Tiết Hóa Đơn Bán</h1>
 
 <p>
@@ -18,9 +18,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.GiaTien)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KhuyenMai)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdHdbNavigation)
@@ -41,19 +38,16 @@
                 @Html.DisplayFor(modelItem => item.GiaTien)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.KhuyenMai)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.IdHdbNavigation.SoHd)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdMenuNavigation.TenMon)
             </td>
             <td>
-
+                <a asp-action="DeleteChiTietHDB" asp-controller="Forms" asp-route-IDHDB="@item.IdHdb" asp-route-IDMENU="@item.IdMenu">Delete</a> |
+                    <a asp-action="TableHoaDonBan" asp-controller="Tables">Quay lại</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-</main>

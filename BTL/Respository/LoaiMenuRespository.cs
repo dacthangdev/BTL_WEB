@@ -11,7 +11,9 @@ namespace BTL.Respository
         }
         public LoaiMonAn Add(LoaiMonAn loaiMonAn)
         {
-            throw new NotImplementedException();
+            _context.Add(loaiMonAn);
+            _context.SaveChanges();
+            return loaiMonAn;
         }
 
         public LoaiMonAn Delete(string ID)
@@ -31,7 +33,9 @@ namespace BTL.Respository
 
         public LoaiMonAn Update(LoaiMonAn loaiMonAn)
         {
-            throw new NotImplementedException();
+            _context.Update(loaiMonAn);
+            _context.SaveChanges();
+            return loaiMonAn;
         }
     }
 }

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<BTL.Models.Tuser>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "TableUser";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
+}
+
+<h1>TableUser</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoaiUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoTen)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoTen)
+            </td>
+            <td>
+                <a asp-controller="Forms" asp-action="EditUser" asp-route-id="@item.Username">Edit</a> |
+                <a asp-controller="Forms" asp-action="DeleteUser" asp-route-id="@item.Username">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

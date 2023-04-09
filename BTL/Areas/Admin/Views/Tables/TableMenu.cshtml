@@ -4,7 +4,6 @@
     ViewData["Title"] = "TableMenu";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
-<main id="main" class="main">
 <h1>Bảng Menu</h1>
 
 <p>
@@ -38,17 +37,16 @@
                 @Html.DisplayFor(modelItem => item.Gia)
             </td>
             <td>
-                <img src="@Url.Content("~/Admin/Images/" + item.Anh)" alt="" width="50px" height="50px"/>
+                <img src="@Url.Content("~/ProductImages/anhWeb/" + item.Anh)" alt="" width="50px" height="50px"/>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdLoaiNavigation.TenLoai)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-controller="Tables" asp-action="EditMenu" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-</main>
