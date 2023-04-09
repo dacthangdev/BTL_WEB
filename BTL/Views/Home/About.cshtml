@@ -146,7 +146,7 @@
                     @foreach(var item in Model){
                 <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="staff">
-                        <div class="img"><img class="img"  src="@Url.Content("../imgNhanVien/" + item.AnhDaiDien)" alt="Ảnh đại diện" /></div>
+                        <div class="img"><img class="img"  src="@Url.Content("../Employee/" + item.AnhDaiDien)" alt="Ảnh đại diện" /></div>
                         <div class="text pt-4">
                             <h3>@item.HoTen</h3>
                             <span class="position mb-2">@*@item.idcvnavigation.tencv*@</span>
@@ -262,7 +262,7 @@
                         <div class="item">
                             <div class="testimony-wrap text-center pb-5">
                                 <div class="user-img mb-4" >
-                                    <img class="user-img mb-4" src="@Url.Content("../imgKhachHang/"+item.Img)">
+                                    <img class="user-img mb-4" src="@Url.Content("../Customer/"+item.Img)">
                                     <span class="quote d-flex align-items-center justify-content-center">
                                         <i class="icon-quote-left"></i>
                                     </span>

@@ -23,6 +23,9 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="wwwroot\Admin\Images\" />
+    <Folder Include="wwwroot\Employee\" />
+    <Folder Include="wwwroot\Customer\" />
+    <Folder Include="wwwroot\Blog\" />
     <Folder Include="wwwroot\ProductImages\anhWeb\" />
   </ItemGroup>
 

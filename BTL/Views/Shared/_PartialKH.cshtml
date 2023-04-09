@@ -1,0 +1,21 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@foreach (var item in ViewBag.KH)
+{
+    <div class="item">
+        <div class="testimony-wrap text-center pb-5">
+            <div class="user-img mb-4">
+                <img class="user-img mb-4" src="@Url.Content("../Customer/"+item.Img)">
+                <span class="quote d-flex align-items-center justify-content-center">
+                    <i class="icon-quote-left"></i>
+                </span>
+            </div>
+            <div class="text p-3">
+                <p class="mb-4">@item.Sdt</p>
+                <p class="name">@item.HoTen</p>
+                <span class="position">Customer</span>
+            </div>
+        </div>
+    </div>
+}

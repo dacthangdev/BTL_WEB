@@ -41,7 +41,7 @@ namespace BTL.Areas.Admin.Controllers
 
                 string fileName = newfileName + fileextention;
 
-                string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Admin\\Images", fileName);
+                string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Employee", fileName);
 
                 var stream = new FileStream(uploadpath, FileMode.Create);
 
@@ -83,7 +83,7 @@ namespace BTL.Areas.Admin.Controllers
 
                 string fileName = newfileName + fileextention;
 
-                string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\ProductImages\\anhWeb", fileName);
+                string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Employee", fileName);
 
                 var stream = new FileStream(uploadpath, FileMode.Create);
 
@@ -143,7 +143,7 @@ namespace BTL.Areas.Admin.Controllers
 
                 string fileName = newfileName + fileextention;
 
-                string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\ProductImages\\anhWeb", fileName);
+                string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Customer", fileName);
 
                 var stream = new FileStream(uploadpath, FileMode.Create);
 
@@ -184,7 +184,7 @@ namespace BTL.Areas.Admin.Controllers
 
             string fileName = newfileName + fileextention;
 
-            string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\ProductImages\\anhWeb", fileName);
+            string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Customer", fileName);
 
             var stream = new FileStream(uploadpath, FileMode.Create);
 

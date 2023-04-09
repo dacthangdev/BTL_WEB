@@ -7,6 +7,7 @@ using BTL.Models.RegisterViewModel;
 using Azure;
 using System.Reflection.Metadata;
 using BTL.ModelsView;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BTL.Controllers
 {
@@ -20,10 +21,15 @@ namespace BTL.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
+            int pageNumber = page == null || page < 1 ? 1 : page.Value;
             var lstsanpham = db.Menus.AsNoTracking().OrderBy(x => x.TenMon).Take(8).ToList();
             ViewBag.MonAn = db.Menus.AsNoTracking().OrderBy(x => x.TenMon).Take(4).ToList();
+            ViewBag.NV = db.NhanViens.AsNoTracking().OrderBy(x => x.HoTen).Take(4);
+            ViewBag.KH = db.KhachHangs.Take(4);
+            ViewBag.Blog = db.Blogs.Take(3);
+            PagedList<NhanVien> pageList = new PagedList<NhanVien>(ViewBag.NV, pageNumber, 4);
             return View(lstsanpham);
         }
 

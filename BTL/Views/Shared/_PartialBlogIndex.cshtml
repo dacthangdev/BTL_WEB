@@ -1,11 +1,10 @@
-﻿@using X.PagedList.Mvc.Core;
-@model X.PagedList.IPagedList<Blog>
-@foreach (var item in Model)
+﻿
+@foreach (var item in ViewBag.Blog)
 {
     
 <div class="col-md-4 ftco-animate">
     <div class="blog-entry">
-            <a href="blog-single.html" class="block-20" style="background-image: url('@Url.Content("../anhWeb/"+ @item.Anh)');">
+            <a href="blog-single.html" class="block-20" style="background-image: url('@Url.Content("../Blog/"+ @item.Anh)');">
         </a>
         <div class="text pt-3 pb-4 px-4">
             <div class="meta">
@@ -23,10 +22,3 @@
     </div>
 </div>
 }
-@*@Html.PagedListPager(Model,page => Url.Action("Blog", new {page=page}),new X.PagedList.Web.Common.PagedListRenderOptions(){
-	LiElementClasses = new List<String> {"page-item"},
-	PageClasses = new List<String> {"page-link"}
-})*@
-<div class="product__pagination row no-gutters my-5 col justify-content-center block-27">
-    @Html.PagedListPager(Model,page => Url.Action("Blog", new {page=page}))
-</div>
