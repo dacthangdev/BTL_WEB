@@ -1,0 +1,29 @@
+﻿@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<Blog>
+@foreach (var item in Model)
+{
+    
+<div class="col-md-4 ftco-animate">
+    <div class="blog-entry">
+            <a href="blog-single.html" class="block-20" style="background-image: url('@Url.Content("../anhWeb/"+ @item.Anh)');">
+        </a>
+        <div class="text pt-3 pb-4 px-4">
+            <div class="meta">
+                <div><a href="#">@item.NgayDang</a></div>
+                <div><a href="#">@item.TacGia</a></div>
+            </div>
+            <h3 class="heading"><a href="#">@item.TieuDe</a></h3>
+            <p class="clearfix">
+                    @*<a href="@Url.Action("ViewBlog", "home")" class="float-left read">Read more</a>*@
+                    <a asp-controller="home" asp-action="viewblog" asp-route-Id ="@item.Id" class="float-left read">Read more</a>
+
+                <a href="#" class="float-right meta-chat"><span class="icon-chat"></span> 3</a>
+            </p>
+        </div>
+    </div>
+</div>
+}
+@*@Html.PagedListPager(Model,page => Url.Action("Blog", new {page=page}),new X.PagedList.Web.Common.PagedListRenderOptions(){
+	LiElementClasses = new List<String> {"page-item"},
+	PageClasses = new List<String> {"page-link"}
+})*@

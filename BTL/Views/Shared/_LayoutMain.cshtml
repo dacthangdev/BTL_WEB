@@ -8,31 +8,30 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Great+Vibes&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../main/css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="../main/css/animate.css">
-    
-    <link rel="stylesheet" href="../main/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="../main/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="../main/css/magnific-popup.css">
+	<link rel="stylesheet" href="../../main/css/open-iconic-bootstrap.min.css">
+	<link rel="stylesheet" href="../../main/css/animate.css">
 
-    <link rel="stylesheet" href="../main/css/aos.css">
+	<link rel="stylesheet" href="../../main/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="../../main/css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="../../main/css/magnific-popup.css">
 
-    <link rel="stylesheet" href="../main/css/ionicons.min.css">
+	<link rel="stylesheet" href="../../main/css/aos.css">
 
-    <link rel="stylesheet" href="../main/css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="../main/css/jquery.timepicker.css">
+	<link rel="stylesheet" href="../../main/css/ionicons.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../../main/css/bootstrap-datepicker.css">
+	<link rel="stylesheet" href="../../main/css/jquery.timepicker.css">
 	<script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
 	<link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet" />
 	<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js"></script>
 	<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
-
 	<link rel="stylesheet"
 		  href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
 		  type="text/css" />
-    
-    <link rel="stylesheet" href="../main/css/flaticon.css">
-    <link rel="stylesheet" href="../main/css/icomoon.css">
-    <link rel="stylesheet" href="../main/css/style.css">
+
+	<link rel="stylesheet" href="../../main/css/flaticon.css">
+	<link rel="stylesheet" href="../../main/css/icomoon.css">
+	<link rel="stylesheet" href="../../main/css/style.css">
   </head>
   <body>
     <div class="py-1 bg-black top">
@@ -58,7 +57,7 @@
     </div>
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="index.html">Feliciano</a>
+	      <a class="navbar-brand" asp-controller="home" asp-action="index">Feliciano</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
@@ -69,8 +68,14 @@
 	        	<li class="nav-item"><a asp-controller="home" asp-action="about" class="nav-link">About</a></li>
 	        	<li class="nav-item"><a asp-controller="home" asp-action="menu" class="nav-link">Menu</a></li>
 	        	<li class="nav-item"><a asp-controller="home" asp-action="blog" class="nav-link">Stories</a></li>
-	          <li class="nav-item"><a asp-controller="home" asp-action="contact" class="nav-link">Contact</a></li>
+				<li class="nav-item"><a asp-controller="home" asp-action="contact" class="nav-link">Contact</a></li>
 				<li class="nav-item cta"><a asp-controller="home" asp-action="reservation"  class="nav-link">Book a table</a></li>
+				<li class="nav-item class_icon">
+					<a asp-controller="Cart" asp-action="Index"><i class="fa fa-shopping-cart"></i></a>
+				</li>
+				<li class="nav-item class_icon">
+					<a asp-action="Login" asp-controller="Home"><i class="fa fa-user"></i></a>
+				</li>
 	        </ul>
 	      </div>
 	    </div>
@@ -87,25 +92,26 @@
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 	<script src="../main/js/API.js"></script>
-<script src="../main/js/map_box.js"></script>
-  <script src="../main/js/jquery.min.js"></script>
-  <script src="../main/js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="../main/js/popper.min.js"></script>
-  <script src="../main/js/bootstrap.min.js"></script>
-  <script src="../main/js/jquery.easing.1.3.js"></script>
-  <script src="../main/js/jquery.waypoints.min.js"></script>
-  <script src="../main/js/jquery.stellar.min.js"></script>
-  <script src="../main/js/owl.carousel.min.js"></script>
-  <script src="../main/js/jquery.magnific-popup.min.js"></script>
-  <script src="../main/js/aos.js"></script>
-  <script src="../main/js/jquery.animateNumber.min.js"></script>
-  <script src="../main/js/bootstrap-datepicker.js"></script>
-  <script src="../main/js/jquery.timepicker.min.js"></script>
-  <script src="../main/js/scrollax.min.js"></script>
+	<script src="../main/js/APIMenu.js"></script>
+	<script src="../main/js/map_box.js"></script>
+	<script src="../../main/js/jquery.min.js"></script>
+	<script src="../../main/js/jquery-migrate-3.0.1.min.js"></script>
+	<script src="../../main/js/popper.min.js"></script>
+	<script src="../../main/js/bootstrap.min.js"></script>
+	<script src="../../main/js/jquery.easing.1.3.js"></script>
+	<script src="../../main/js/jquery.waypoints.min.js"></script>
+	<script src="../../main/js/jquery.stellar.min.js"></script>
+	<script src="../../main/js/owl.carousel.min.js"></script>
+	<script src="../../main/js/jquery.magnific-popup.min.js"></script>
+	<script src="../../main/js/aos.js"></script>
+	<script src="../../main/js/jquery.animateNumber.min.js"></script>
+	<script src="../../main/js/bootstrap-datepicker.js"></script>
+	<script src="../../main/js/jquery.timepicker.min.js"></script>
+	<script src="../../main/js/scrollax.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="../main/js/google-map.js"></script>
-  <script src="../main/js/main.js"></script>
- 
-    
+  <script src="../../main/js/google-map.js"></script>
+  <script src="../../main/js/main.js"></script>
+
+	@RenderSection("Scripts", required: false)
   </body>
 </html>

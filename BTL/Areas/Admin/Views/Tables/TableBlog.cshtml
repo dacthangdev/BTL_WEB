@@ -1,0 +1,74 @@
+﻿@model IEnumerable<BTL.Models.Blog>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "TableBlog";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
+}
+
+<h1>TableBlog</h1>
+
+<p>
+    <a asp-controller="Forms" asp-action="AddBlog">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TacGia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TieuDe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoiDung)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Anh)
+            </th>
+            @*            <th>
+            @Html.DisplayNameFor(model => model.Cmt)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.NguoiCmt)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.NgayDang)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TacGia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TieuDe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoiDung)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Anh)
+                </td>
+                @*<td>
+            @Html.DisplayFor(modelItem => item.Cmt)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.NguoiCmt)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.NgayDang)
+            </td>*@
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

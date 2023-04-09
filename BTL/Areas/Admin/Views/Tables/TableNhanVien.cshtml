@@ -4,11 +4,10 @@
     ViewData["Title"] = "TableNhanVien";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
-<main id="main" class="main">
 <h1>TableNhanVien</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="AddNhanVien" asp-controller="Forms">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -67,12 +66,10 @@
                 @Html.DisplayFor(modelItem => item.IdPhongNavigation.TenPhong)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-controller="Forms" asp-action="EditNhanVien" asp-route-IdNV="@item.Id">Edit</a> |
+                <a asp-controller="Forms" asp-action="DeleteNhanVien" asp-route-IdNV="@item.Id">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-</main>

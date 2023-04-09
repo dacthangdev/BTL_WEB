@@ -1,0 +1,43 @@
+﻿@model BTL.Models.ChitietHdb
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "EditChiTietHDB";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
+}
+
+<h1>EditChiTietHDB</h1>
+
+<h4>ChitietHdb</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditChiTietHDB">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Sl" class="control-label"></label>
+                <input asp-for="Sl" class="form-control" />
+                <span asp-validation-for="Sl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GiaTien" class="control-label"></label>
+                <input asp-for="GiaTien" class="form-control" />
+                <span asp-validation-for="GiaTien" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KhuyenMai" class="control-label"></label>
+                <input asp-for="KhuyenMai" class="form-control" />
+                <span asp-validation-for="KhuyenMai" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="IdMenu" />
+            <input type="hidden" asp-for="IdHdb" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

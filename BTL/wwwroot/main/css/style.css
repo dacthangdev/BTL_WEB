@@ -9789,3 +9789,8 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+.class_icon {
+    margin: auto;
+    padding-left: 30px;
+}

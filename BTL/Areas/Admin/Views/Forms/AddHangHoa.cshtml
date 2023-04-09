@@ -4,7 +4,7 @@
     ViewData["Title"] = "AddHangHoa";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
-<main id="main" class="main">
+
 <h1>Thêm Hàng hóa</h1>
 
 <h4>Hàng hóa</h4>
@@ -17,11 +17,6 @@
                 <label asp-for="TenHh" class="control-label"></label>
                 <input asp-for="TenHh" class="form-control" />
                 <span asp-validation-for="TenHh" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Sl" class="control-label"></label>
-                <input asp-for="Sl" class="form-control" />
-                <span asp-validation-for="Sl" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NgayNhap" class="control-label"></label>
@@ -42,4 +37,4 @@
 <div>
     <a asp-controller="Tables" asp-action="TableHangHoa">Back to List</a>
 </div>
-</main>
+

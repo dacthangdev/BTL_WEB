@@ -1,0 +1,48 @@
+﻿@using (Html.BeginForm("EditMenu", "Tables", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@model BTL.Models.Menu
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "EditMenu";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
+}
+
+    <h1>EditMenu</h1>
+
+    <h4>Menu</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post" asp-action="EditMenu">
+                <div asp-validation-summary="ModelOnly" enctype="multipart/form-data" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="TenMon" class="control-label"></label>
+                    <input asp-for="TenMon" class="form-control" />
+                    <span asp-validation-for="TenMon" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Gia" class="control-label"></label>
+                    <input asp-for="Gia" class="form-control" />
+                    <span asp-validation-for="Gia" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Anh" class="control-label"></label>
+                    <input type="file" name="formFile" asp-for="Anh" class="form-control"/>
+                    <span asp-validation-for="Anh" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdLoai" class="control-label"></label>
+                    <select asp-for="IdLoai" class="form-control" asp-items="ViewBag.IdLoai"></select>
+                    <span asp-validation-for="IdLoai" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-controller="Tables" asp-action="TableMenu">Back to List</a>
+    </div>
+

@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace BTL.Models;
 
 public partial class DatBan
 {
-    public int Id { get; set; }
-    public string? Name_KH { get; set; }
+    [DisplayName("Tên Khách Hàng")]
+    public string? NameKh { get; set; }
+    [DisplayName("Tên người đặt")]
     public string? Email { get; set; }
+    [DisplayName("Số điện thoại")]
     public string? Phone { get; set; }
-    public DateTime? NgayDat { get; set; }
-    public string? Gio_Nhan { get; set; }
-    public string? Sl { get; set; }
+    [DisplayName("Ngày đặt")]
+    public DateTime? Ngaydat { get; set; }
+    [DisplayName("Giờ nhận")]
+    public string? GioNhan { get; set; }
 
+    public int Id { get; set; }
+    [DisplayName("Số lượng người")]
+    public string? Sl { get; set; }
 }

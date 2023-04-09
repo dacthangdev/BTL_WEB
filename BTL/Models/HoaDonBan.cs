@@ -12,11 +12,15 @@ public partial class HoaDonBan
     [DisplayName("Ngày Xuất")]
     public DateTime NgayXuat { get; set; }
     [DisplayName("Nhân Viên")]
-    public int IdNv { get; set; }
+    public int? IdNv { get; set; }
     [DisplayName("Khách Hàng")]
     public int? IdKh { get; set; }
     [DisplayName("Bàn")]
-    public int IdBan { get; set; }
+    public int? IdBan { get; set; }
+    [DisplayName("Tổng tiền")]
+    public double? TongTien { get; set; }
+    [DisplayName("Khuyến mãi")]
+    public double? KhuyenMai { get; set; }
 
     public virtual ICollection<ChitietHdb> ChitietHdbs { get; } = new List<ChitietHdb>();
     [DisplayName("Bàn")]
