@@ -15,6 +15,7 @@ namespace BTL.Areas.Admin.Controllers
     public class TablesController : Controller
     {
         CsdlwebContext db = new CsdlwebContext();
+        static string anhmenu;
         [Route("TableHoaDonBan")]
         public IActionResult TableHoaDonBan()
         {
@@ -105,6 +106,7 @@ namespace BTL.Areas.Admin.Controllers
             ViewBag.Id = new SelectList(db.Menus.OrderBy(x => x.Id), "Id", "TenMon");
             ViewBag.IdLoai = new SelectList(db.LoaiMonAns.OrderBy(x => x.Id), "Id", "TenLoai");
             var sp = db.Menus.Find(Id);
+            anhmenu = sp.Anh;
             return View(sp);
         }
         [Route("EditMenu")]
@@ -112,20 +114,27 @@ namespace BTL.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditMenu(Menu sp, IFormFile formFile)
         {
-            Guid guid = Guid.NewGuid();
+            if (formFile != null)
+            {
+                Guid guid = Guid.NewGuid();
 
-            string newfileName = guid.ToString();
+                string newfileName = guid.ToString();
 
-            string fileextention = Path.GetExtension(formFile.FileName);
+                string fileextention = Path.GetExtension(formFile.FileName);
 
-            string fileName = newfileName + fileextention;
+                string fileName = newfileName + fileextention;
 
-            string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\ProductImages\\anhWeb", fileName);
+                string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\ProductImages\\anhWeb", fileName);
 
-            var stream = new FileStream(uploadpath, FileMode.Create);
+                var stream = new FileStream(uploadpath, FileMode.Create);
 
-            formFile.CopyToAsync(stream);
-            sp.Anh = fileName.ToString();
+                formFile.CopyToAsync(stream);
+                sp.Anh = fileName.ToString();
+            }
+            else
+            {
+                sp.Anh = anhmenu;
+            }
             try
             {
                 sp.IdLoaiNavigation = db.LoaiMonAns.Find(sp.Id);
@@ -176,6 +185,13 @@ namespace BTL.Areas.Admin.Controllers
         public IActionResult TableUser()
         {
             List<Tuser> list = db.Tusers.ToList();
+            return View(list);
+        }
+
+        [Route("TableContact")]
+        public IActionResult TableContact()
+        {
+            List<Contact> list = db.Contacts.ToList();
             return View(list);
         }
     }

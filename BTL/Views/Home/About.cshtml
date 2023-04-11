@@ -12,7 +12,7 @@
         <div class="row no-gutters slider-text align-items-end justify-content-center">
           <div class="col-md-9 ftco-animate text-center mb-4">
             <h1 class="mb-2 bread">About</h1>
-            <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>About <i class="ion-ios-arrow-forward"></i></span></p>
+            <p class="breadcrumbs"><span class="mr-2"><a asp-controller="Home" asp-action="Index">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>About <i class="ion-ios-arrow-forward"></i></span></p>
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@
                     @foreach(var item in Model){
                 <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="staff">
-                        <div class="img"><img class="img"  src="@Url.Content("../Employee/" + item.AnhDaiDien)" alt="Ảnh đại diện" /></div>
+                        <div class="img"><img class="img" style="width:100%" src="@Url.Content("../Employee/" + item.AnhDaiDien)" alt="Ảnh đại diện" /></div>
                         <div class="text pt-4">
                             <h3>@item.HoTen</h3>
                             <span class="position mb-2">@*@item.idcvnavigation.tencv*@</span>
@@ -166,17 +166,9 @@
                     }
 					
 				</div>
-        <div class="row no-gutters my-5 >
-             
-            <div class="col text-center">
-                <div class="block-27">
-                    @Html.PagedListPager(Model,page=>Url.Action("about",new{page=page}))
-                </div>
-            </div>
+        <div class="product__pagination row no-gutters my-5 col justify-content-center block-27">
+            @Html.PagedListPager(Model,page => Url.Action("About", new {page=page}))
         </div>
-                
-       
-			</div>
 		</section>
 
 		<section class="ftco-section img" style="background-image: url(../main/images/bg_3.jpg)" data-stellar-background-ratio="0.5">

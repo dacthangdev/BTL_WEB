@@ -3,7 +3,7 @@
     ViewData["Title"] = "Reservation";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('../../main/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-center">
@@ -86,3 +86,28 @@
         </div>
 			</div>
 		</section>
+
+@section Scripts{
+	<script>
+
+
+ //Hàm lấy Thêm mới Khách hàng. Dùng $.ajax() thực hiện method HTTP POST
+function insertDatBan() { 
+	var url = 'https://localhost:7000/api/datbanapi?name=' +
+	$('#name').val() + '&email=' + $('#email').val() + '&phone=' + $('#phone').val() + '&date=' + $('#book_date').val() + '&time='+ $('#book_time').val() + '&person=' + $('#soluong option:selected').text();
+	$.ajax({
+		url: url,
+	method: 'POST',
+	contentType: 'json',
+	dataType: 'json',
+	error: function (response) {
+		alert("Đặt bàn thất bại");
+		},
+	success: function (reponse) {
+		alert("Đặt bàn thành công");
+		window.location.href = "https://localhost:7000";
+		}
+	});
+}
+	</script>
+}

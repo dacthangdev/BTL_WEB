@@ -1,12 +1,13 @@
 ﻿using BTL.Models;
 using BTL.Models.Authentication;
+using BTL.ModelsView;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.IdentityModel.Tokens;
 
 namespace BTL.Areas.Admin.Controllers
 {
@@ -18,7 +19,7 @@ namespace BTL.Areas.Admin.Controllers
     public class FormsController : Controller
     {
         CsdlwebContext db = new CsdlwebContext();
-
+        static string anhnhanvien,anhkhachhang;
         [Route("NhanVien")]
         [HttpGet]
         public IActionResult AddNhanVien()
@@ -66,6 +67,7 @@ namespace BTL.Areas.Admin.Controllers
             ViewBag.IdPhong = new SelectList(db.PhongQls.OrderBy(x => x.Id), "Id", "TenPhong");
             ViewBag.IdCv = new SelectList(db.ChucVus.OrderBy(x => x.Id), "Id", "TenCv");
             var nhanVien = db.NhanViens.Find(IdNV);
+            anhnhanvien = nhanVien.AnhDaiDien;
             return View(nhanVien);
         }
         [Route("EditNhanVien")]
@@ -73,28 +75,30 @@ namespace BTL.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditNhanVien(NhanVien nv, IFormFile formFile)
         {
-            if (formFile != null)
-            {
-                Guid guid = Guid.NewGuid();
-
-                string newfileName = guid.ToString();
-
-                string fileextention = Path.GetExtension(formFile.FileName);
-
-                string fileName = newfileName + fileextention;
-
-                string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Employee", fileName);
-
-                var stream = new FileStream(uploadpath, FileMode.Create);
-
-                formFile.CopyToAsync(stream);
-                nv.AnhDaiDien = fileName.ToString();
-            }
             try
             {
-                nv.IdCvNavigation = db.ChucVus.Find(nv.IdCv);
-                nv.IdPhongNavigation = db.PhongQls.Find(nv.IdPhong);
-                db.Entry(nv).State = EntityState.Modified;
+                if (formFile != null)
+                {
+                    Guid guid = Guid.NewGuid();
+
+                    string newfileName = guid.ToString();
+
+                    string fileextention = Path.GetExtension(formFile.FileName);
+
+                    string fileName = newfileName + fileextention;
+
+                    string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Employee", fileName);
+
+                    var stream = new FileStream(uploadpath, FileMode.Create);
+
+                    formFile.CopyToAsync(stream);
+                    nv.AnhDaiDien = fileName.ToString();
+                }
+                else
+                {
+                    nv.AnhDaiDien = anhnhanvien;
+                }
+                db.Update(nv);
                 db.SaveChanges();
                 return RedirectToAction("TableNhanVien", "Tables");
             }
@@ -170,26 +174,34 @@ namespace BTL.Areas.Admin.Controllers
         public IActionResult EditKhachHang(int IdKH)
         {
             var khachHang = db.KhachHangs.Find(IdKH);
+            anhkhachhang = khachHang.Img;
             return View(khachHang);
         }
         [Route("EditKhachHang")]
         [HttpPost]
         public IActionResult EditKhachHang(KhachHang khachHang, IFormFile formFile)
         {
-            Guid guid = Guid.NewGuid();
+            if (formFile != null)
+            {
+                Guid guid = Guid.NewGuid();
 
-            string newfileName = guid.ToString();
+                string newfileName = guid.ToString();
 
-            string fileextention = Path.GetExtension(formFile.FileName);
+                string fileextention = Path.GetExtension(formFile.FileName);
 
-            string fileName = newfileName + fileextention;
+                string fileName = newfileName + fileextention;
 
-            string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Customer", fileName);
+                string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Customer", fileName);
 
-            var stream = new FileStream(uploadpath, FileMode.Create);
+                var stream = new FileStream(uploadpath, FileMode.Create);
 
-            formFile.CopyToAsync(stream);
-            khachHang.Img = fileName.ToString();
+                formFile.CopyToAsync(stream);
+                khachHang.Img = fileName.ToString();
+            }
+            else
+            {
+                khachHang.Img = anhkhachhang;
+            }
             if (ModelState.IsValid)
             {
                 db.KhachHangs.Update(khachHang);
@@ -752,7 +764,7 @@ namespace BTL.Areas.Admin.Controllers
         }
 
         [Route("DeleteUser")]
-        [HttpPost]
+        [HttpGet]
         public IActionResult DeleteUser(string id)
         {
             try
@@ -769,5 +781,22 @@ namespace BTL.Areas.Admin.Controllers
            
         }
 
+        [Route("DeleteContact")]
+        [HttpGet]
+        public IActionResult DeleteContact(int id)
+        {
+            try
+            {
+                Contact contact = db.Contacts.Find(id);
+                db.Remove(contact);
+                db.SaveChanges();
+                return RedirectToAction("TableContact", "Tables");
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("TableContact", "Tables");
+            }
+
+        }
     }
 }

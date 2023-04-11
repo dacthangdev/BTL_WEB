@@ -54,6 +54,7 @@ public partial class CsdlwebContext : DbContext
 
     public virtual DbSet<TinhTrang> TinhTrangs { get; set; }
     public virtual DbSet<Tuser> Tusers { get; set; }
+    public virtual DbSet<Contact> Contacts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -418,6 +419,19 @@ public partial class CsdlwebContext : DbContext
             entity.Property(e => e.Password).HasMaxLength(100);
         });
 
+        modelBuilder.Entity<Contact>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Contact__3214EC278E9FC3EB");
+
+            entity.ToTable("Contact");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Yourname).HasColumnName("Yourname");
+            entity.Property(e => e.YourEmail).HasColumnName("YourEmail");
+            entity.Property(e => e.Subject).HasColumnName("Subject");
+            entity.Property(e => e.SendMessage).HasColumnName("SendMessage");
+
+        });
         OnModelCreatingPartial(modelBuilder);
     }
 

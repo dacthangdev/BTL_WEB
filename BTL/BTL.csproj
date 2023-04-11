@@ -29,4 +29,46 @@
     <Folder Include="wwwroot\ProductImages\anhWeb\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Areas\Admin\Views\Forms\AddBanAn.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddBlog.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddChiTietHDB.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddChiTietHDN.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddChiTietHDX.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddChucVu.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddHangHoa.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddHoaDonBan.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddHoaDonNhap.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddHoaDonXuat.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddKhachHang.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddLoaiMenu.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddMenu.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddNhaCC.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddNhanVien.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddPhongBan.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\AddTang.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\EditChiTietHDB.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\EditHangHoa.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\EditKhachHang.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\EditNhanVien.cshtml" />
+    <None Include="Areas\Admin\Views\Forms\EditUser.cshtml" />
+    <None Include="Areas\Admin\Views\HomeAdmin\Index.cshtml" />
+    <None Include="Areas\Admin\Views\Shared\_LayoutAdminMain.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\EditMenu.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableBlog.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableChiTietHDB.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableChiTietHDN.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableChiTietHDX.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableDatBan.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableHangHoa.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableHoaDonBan.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableHoaDonNhap.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableHoaDonXuat.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableKhachHang.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableMenu.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableNhanVien.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TablePhongBan.cshtml" />
+    <None Include="Areas\Admin\Views\Tables\TableUser.cshtml" />
+  </ItemGroup>
+
 </Project>

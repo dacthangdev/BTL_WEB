@@ -45,7 +45,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a asp-action="Index" asp-controller="HomeAdmin" class="logo d-flex align-items-center">
         <img src="../../Admin/assets/img/logo.png" alt="">
         <span class="d-none d-lg-block">NiceAdmin</span>
       </a>
@@ -480,6 +480,11 @@
                 </a>
             </li>
             <li>
+                <a asp-action="TableContact" asp-controller="Tables">
+                    <i class="bi bi-circle"></i><span>Contacts</span>
+                </a>
+            </li>
+            <li>
                 <a asp-action="TableUser" asp-controller="Tables">
                     <i class="bi bi-circle"></i><span>Tài khoản</span>
                 </a>
@@ -536,7 +541,7 @@
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
+        <a class="nav-link collapsed" asp-action="profile" asp-controller="Forms">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
@@ -564,9 +569,9 @@
       </li><!-- End Register Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-login.html">
+        <a class="nav-link collapsed" asp-controller="Home" asp-action="Logout">
           <i class="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
+          <span>Logout</span>
         </a>
       </li><!-- End Login Page Nav -->
 

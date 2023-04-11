@@ -8,6 +8,8 @@ using Azure;
 using System.Reflection.Metadata;
 using BTL.ModelsView;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Http;
+using BTL.Models.Authentication;
 
 namespace BTL.Controllers
 {
@@ -92,13 +94,13 @@ namespace BTL.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            if (HttpContext.Session.Get<Tuser>("UserName") == null)
+            if (HttpContext.Session.Get<Tuser>("UserName") == null && HttpContext.Session.Get<Tuser>("Manager") == null)
             {
                 return View();
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Profile", "Home");
 
             }
         }
@@ -106,7 +108,7 @@ namespace BTL.Controllers
         [HttpPost]
         public IActionResult Login(Tuser user)
         {
-            if (HttpContext.Session.Get<Tuser>("UserName") != null || HttpContext.Session.Get<Tuser>("Mangager") != null)
+            if (HttpContext.Session.Get<Tuser>("UserName") != null || HttpContext.Session.Get<Tuser>("Manager") != null)
             {
                 return View(user);
             }
@@ -117,15 +119,15 @@ namespace BTL.Controllers
                 {
                     if (u.LoaiUser == 0)
                     {
-                        HttpContext.Session.Set<Tuser>("Mangager", u);
-                        HttpContext.Session.SetString("MangagerLogin", u.Email.ToString());
+                        HttpContext.Session.Set<Tuser>("Manager", u);
+                        HttpContext.Session.SetString("ManagerLogin", u.Email.ToString());
                         return RedirectToAction("Index", "Admin");
                     }
                     else
                     {
                         HttpContext.Session.Set<Tuser>("UserName", u);
                         HttpContext.Session.SetString("UserNameLogin", u.Email.ToString());
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Profile", "Home");
                     }
                 }
                 return RedirectToAction("Index", "Home");
@@ -170,6 +172,25 @@ namespace BTL.Controllers
         public IActionResult Register()
         {
             return View();
+        }
+        [AuthenticationProfile]
+        public IActionResult Profile()
+        {
+            Tuser tuser = new Tuser();
+            if (HttpContext.Session.Get<Tuser>("UserName") != null)
+            {
+                tuser = HttpContext.Session.Get<Tuser>("UserName");
+            }
+            else if (HttpContext.Session.Get<Tuser>("Manager") != null)
+            {
+                tuser = HttpContext.Session.Get<Tuser>("Manager");
+            }
+            KhachHang khachHang = db.KhachHangs.Where(x => x.Email == tuser.Email).FirstOrDefault();
+            if (khachHang != null)
+            {
+                ViewBag.Profile = khachHang;
+            }
+            return View(tuser);
         }
     }
 }

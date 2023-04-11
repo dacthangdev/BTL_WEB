@@ -7,7 +7,7 @@ namespace BTL.Models.Authentication
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (context.HttpContext.Session.GetString("MangagerLogin") == null && context.HttpContext.Session.GetString("UserNameLogin") == null)
+            if (context.HttpContext.Session.GetString("ManagerLogin") == null && context.HttpContext.Session.GetString("UserNameLogin") == null)
             {
                 context.Result = new RedirectToRouteResult(
                     new RouteValueDictionary
@@ -16,7 +16,7 @@ namespace BTL.Models.Authentication
                         {"Action", "Login" }
                     });
             }
-            if (context.HttpContext.Session.GetString("MangagerLogin") == null)
+            if (context.HttpContext.Session.GetString("ManagerLogin") == null)
             {
                 context.Result = new RedirectToRouteResult(
                     new RouteValueDictionary

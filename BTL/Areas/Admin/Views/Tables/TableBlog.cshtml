@@ -6,7 +6,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
 }
 
-<h1>TableBlog</h1>
+<h1>Blogs</h1>
 
 <p>
     <a asp-controller="Forms" asp-action="AddBlog">Create New</a>
@@ -52,7 +52,7 @@
                     @Html.DisplayFor(modelItem => item.NoiDung)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Anh)
+                    <img src="@Url.Content("~/Blog/" + item.Anh)" alt="" width="80px" height="80px" />
                 </td>
                 @*<td>
             @Html.DisplayFor(modelItem => item.Cmt)
@@ -64,8 +64,6 @@
             @Html.DisplayFor(modelItem => item.NgayDang)
             </td>*@
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
