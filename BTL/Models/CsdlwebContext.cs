@@ -26,6 +26,8 @@ public partial class CsdlwebContext : DbContext
 
     public virtual DbSet<ChitietTtb> ChitietTtbs { get; set; }
 
+    public virtual DbSet<CommentBlog> CommentBlogs { get; set; }
+
     public virtual DbSet<ChucVu> ChucVus { get; set; }
 
     public virtual DbSet<DatBan> DatBans { get; set; }
@@ -86,11 +88,7 @@ public partial class CsdlwebContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Anh).HasMaxLength(50);
-            entity.Property(e => e.Cmt).HasMaxLength(1000);
             entity.Property(e => e.NgayDang).HasColumnType("datetime");
-            entity.Property(e => e.NguoiCmt)
-                .HasMaxLength(50)
-                .HasColumnName("Nguoi_cmt");
             entity.Property(e => e.NoiDung).HasMaxLength(3000);
             entity.Property(e => e.TacGia).HasMaxLength(50);
             entity.Property(e => e.TieuDe).HasMaxLength(500);
@@ -191,6 +189,32 @@ public partial class CsdlwebContext : DbContext
             entity.Property(e => e.TenCv)
                 .HasMaxLength(50)
                 .HasColumnName("TenCV");
+        });
+
+        modelBuilder.Entity<CommentBlog>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__comment___3214EC27DBF50E11");
+
+            entity.ToTable("comment_blog");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Content).HasColumnType("text");
+            entity.Property(e => e.IdBlog).HasColumnName("ID_Blog");
+            entity.Property(e => e.IdUser)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .IsFixedLength()
+                .HasColumnName("ID_User");
+
+            entity.HasOne(d => d.IdBlogNavigation).WithMany(p => p.CommentBlogs)
+                .HasForeignKey(d => d.IdBlog)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__comment_b__ID_Bl__6FE99F9F");
+
+            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.CommentBlogs)
+                .HasForeignKey(d => d.IdUser)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__comment_b__ID_Us__70DDC3D8");
         });
 
         modelBuilder.Entity<DatBan>(entity =>

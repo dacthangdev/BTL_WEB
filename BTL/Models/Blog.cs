@@ -16,9 +16,7 @@ public partial class Blog
     [DisplayName("Ảnh")]
     public string Anh { get; set; } = null!;
     [DisplayName("Bình Luận")]
-    public string Cmt { get; set; } = null!;
-    [DisplayName("Người bình luận")]
-    public string NguoiCmt { get; set; } = null!;
-    [DisplayName("Ngày đăng")]
     public DateTime NgayDang { get; set; }
+
+    public virtual ICollection<CommentBlog> CommentBlogs { get; } = new List<CommentBlog>();
 }

@@ -17,11 +17,58 @@
         <div class="row">
             @foreach (var item in Model)
             {
+
+                if (ViewBag.User != null && ViewBag.User.HoTen == item.TacGia)
+                {
+                    <div class="col-md-9 mb40">
+                    <div class="menu-container">
+                        <a class="dropdown-toggle"><span class="icon-menu"></span></a>
+                        <ul class="menu">
+                            <li><a onclick="EditBlog(@item.Id)">Edit</a></li>
+                            <li><a onclick="DeleteBlog(@item.Id)">Delete</a></li>
+                        </ul>
+                    </div>
+                    </div>
+                    <dialog id="myDialog">
+                        @{
+                            @using (Html.BeginForm("EditBlog", "Home", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                        }
+    
+                        <div>
+                        <div>
+                            <form  method="post">
+                                <div>
+                                    <label>Image</label>
+                                    <input id="file" type="file" name="formFile" enctype="multipart/form-data" />
+                                </div>
+                                    <div>
+                                    <label>Title</label>
+                                    <input type="text" id="title" class="form-control" placeholder="Title"></input>
+                                </div>
+                                <div>
+                                    <label>Content</label>
+                                    <textarea name="" id="content" cols="30" rows="7" class="form-control" placeholder="Content"></textarea>
+                                </div>
+                                <div style="margin-bottom: 20px; margin-top: 15px;">
+                                    <input onclick="EditABlog(@item.Id)" value="Confirm" class="btn btn-primary" readonly/>
+                
+                                </div>
+                                <div>
+                                    <input onclick="closeModal()" value="Cancle" class="btn btn-primary" readonly/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    </dialog>
+                }
+               
                 <div class="col-md-9 mb40">
                     <article>
                         <img src="@Url.Content("../../Blog/"+ item.Anh)" alt="" class="img-fluid mb30">
                         <div class="post-content">
-                            <h3 style="font-weight:bold">@item.TieuDe</h3>
+                            <div>
+                                <h3 style="font-weight:bold; display: contents;">@item.TieuDe</h3>
+                            </div>
                             <ul class="post-meta list-inline">
                                 <li class="list-inline-item">
                                     <i class="fa fa-user-circle-o"></i> <a href="#">@item.TacGia</a>
@@ -52,36 +99,43 @@
                                     </a>
                                 </li>
                             </ul>
-                            
                             <hr class="mb40">
                             <h4 class="mb40 text-uppercase font500">Comments</h4>
-                            <div class="media mb40">
+                            <div id="comments">
+                            @if (ViewBag.Comments != null)
+                            {
+                               @await Html.PartialAsync("_PartialComments")
+                            }
+                            else
+                            {
+                                <div class="media mb40">
                                 <i class="d-flex mr-3 fa fa-user-circle-o fa-3x"></i>
                                 <div class="media-body">
                                     <h5 class="mt-0 font400 clearfix">
-                                        <a href="#" class="float-right">Reply</a>
-                                        @item.NguoiCmt
-                                    </h5> @item.Cmt
+                                        No Comments
+                                    </h5>
                                 </div>
+                                </div>
+                            }
                             </div>
+                            @* <div class="media mb40">
+                                <i class="d-flex mr-3 fa fa-user-circle-o fa-3x"></i>
+                                <div class="media-body">
+                                    <h5 class="mt-0 font400 clearfix">
+                                        <a href="#" class="float-right">Reply</>
+                                    </h5>
+                                </div>
+                            </div>*@
        
                             <hr class="mb40">
                             <h4 class="mb40 text-uppercase font500">Post a comment</h4>
                             <form role="form">
                                 <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" placeholder="Enter your name">
-                                </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" class="form-control" placeholder="Enter your email">
-                                </div>
-                                <div class="form-group">
                                     <label>Comment</label>
-    <textarea class="form-control" rows="5" placeholder="Enter your comment"></textarea>
+                                    <textarea id="content_comment" class="form-control" rows="5" placeholder="Enter your comment" required></textarea>
                                 </div>
                                 <div class="clearfix float-right">
-                                    <button type="button" class="btn btn-primary btn-lg">Submit</button>
+                                    <a onclick="postComments(@item.Id)" class="btn btn-primary btn-lg">Submit</a>
                                 </div>
                             </form>
                         </div>
@@ -397,6 +451,177 @@
                 .media-body h5 a:hover {
                     color: #4782d3;
                 }
+.menu {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.menu li {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.menu li:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-toggle {
+  text-align: left;
+}
+
+.menu-container:hover .menu {
+  display: block;
+}
     </style>
+
 </body>
 </html>
+@section Scripts{
+<script>
+    document.querySelector('.menu').style.display = 'none';
+
+// Toggle the display of the menu when the link is clicked
+document.querySelector('.dropdown-toggle').addEventListener('click', function() {
+  var menu = document.querySelector('.menu');
+  if (menu.style.display === 'none') {
+    menu.style.display = 'block';
+  } else {
+    menu.style.display = 'none';
+  }
+});
+function closeModal() {
+  var dialog = document.getElementById("myDialog");
+  dialog.close();
+};
+    function postComments(Id_Blog) {
+    var url = 'https://localhost:7000/api/post/comments?ID_Blog=' + Id_Blog+'&Content='+ $("#content_comment").val();
+    var str = '';
+    var session = false;
+     $.ajax({
+        type: 'GET',
+        url: 'https://localhost:7000/api/session',
+        dataType: 'json',
+        success: function (data) {
+                if (data == false){
+                    window.location.href = 'https://localhost:7000/home/login';
+                }
+                else  if ($("#content_comment").val() == ''){
+                    alert("Input comments null");
+                }
+                else{
+                     $.ajax({
+                         type: 'GET',
+                        url: url,
+                        dataType: 'json',
+                        success: function (data) {
+                            $.each(data, function (key, val){
+                                str += `<div class="media mb40">
+                                    <i class="d-flex mr-3 fa fa-user-circle-o fa-3x"></i>
+                                    <div class="media-body">
+                                        <h5 class="mt-0 font400 clearfix">
+                                    <a href = "#" class="float-right">Reply</a>
+                                            ${val.user}
+                                        </h5>
+                                            ${val.content}
+                                    </div>
+                                    </div>`
+                            });
+                            $('#comments').html(str);
+                            $("#content_comment").val() == '';
+                },
+                Error: function (xhr) {
+                    }
+   
+        
+                });
+    }
+        },
+        Error: function (xhr) {
+
+        }});
+
+};
+function DeleteBlog(ID) { 
+	var url = 'https://localhost:7000/api/deleteblog?ID=' +ID
+    $.ajax({
+		url: url,
+	method: 'Delete',
+	contentType: 'json',
+	dataType: 'json',
+	error: function (response) {
+		alert("Xóa bài thất bại");
+		},
+	success: function (reponse) {
+        if (reponse == true){
+            alert("Xóa bài thành công");
+		    window.location.href = "https://localhost:7000/Home/Blog";
+        }
+		else{
+            alert("Xóa bài thất bại");
+        }
+		}
+	});
+};
+function EditBlog(ID) { 
+	var url = 'https://localhost:7000/api/editblog?ID=' +ID
+    var title = document.getElementById("title");
+    var content = document.getElementById("content");
+    var dialog = document.getElementById("myDialog");
+    dialog.showModal();
+    $.ajax({
+		url: url,
+	method: 'GET',
+	contentType: 'json',
+	dataType: 'json',
+	error: function (response) {
+		alert("Thất bại");
+		},
+	success: function (reponse) {
+        title.value = reponse.tieuDe; 
+        content.value = reponse.noiDung; 
+		}
+	});
+};
+function EditABlog(ID) { 
+    var fileInput = $('#file')[0];
+
+    // Create a new FormData object
+    var formData = new FormData();
+
+    // Append the file to the FormData object
+    formData.append('ID', ID);
+    formData.append('formFile', fileInput.files[0]);
+
+    // Append the other form data to the FormData object
+    formData.append('content', $('#content').val());
+    formData.append('title', $('#title').val());
+
+    // Make an AJAX request to upload the data
+    $.ajax({
+        url: 'https://localhost:7000/api/editblog',
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        error: function (response) {
+            alert("Sửa bài đăng thất bại");
+        },
+        success: function (response) {
+            console.log(response);
+            if (response === true){
+                alert("Sửa bài thành công");
+                closeModal();
+                window.location.href = "https://localhost:7000/home/viewblog/"+ID;
+            }
+            else {
+                alert("Sửa bài đăng thất bại");
+            }
+        }
+    });
+};
+</script>
+}

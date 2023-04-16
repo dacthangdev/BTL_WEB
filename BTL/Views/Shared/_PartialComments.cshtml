@@ -1,0 +1,14 @@
+﻿
+    @foreach (var item in ViewBag.Comments)
+    {
+        <div class="media mb40">
+        <i class="d-flex mr-3 fa fa-user-circle-o fa-3x"></i>
+        <div class="media-body">
+            <h5 class="mt-0 font400 clearfix">
+        <a onclick="openModal()" class="float-right">Reply</a>
+                @item.User
+            </h5>
+                @item.Content
+        </div>
+        </div>
+    }

@@ -5,19 +5,19 @@
     
 <div class="col-md-4 ftco-animate">
     <div class="blog-entry">
-            <a href="blog-single.html" class="block-20" style="background-image: url('@Url.Content("../Blog/"+ @item.Anh)');">
+            <a asp-controller="home" asp-action="viewblog" asp-route-Id ="@item.Id" class="block-20" style="background-image: url('@Url.Content("../Blog/"+ @item.Anh)');">
         </a>
         <div class="text pt-3 pb-4 px-4">
             <div class="meta">
-                <div><a href="#">@item.NgayDang</a></div>
-                <div><a href="#">@item.TacGia</a></div>
+                <div><a asp-controller="home" asp-action="viewblog" asp-route-Id ="@item.Id">@item.NgayDang</a></div>
+                <div><a asp-controller="home" asp-action="viewblog" asp-route-Id ="@item.Id">@item.TacGia</a></div>
             </div>
-            <h3 class="heading"><a href="#">@item.TieuDe</a></h3>
+            <h3 class="heading"><a asp-controller="home" asp-action="viewblog" asp-route-Id ="@item.Id">@item.TieuDe</a></h3>
             <p class="clearfix">
                     @*<a href="@Url.Action("ViewBlog", "home")" class="float-left read">Read more</a>*@
                     <a asp-controller="home" asp-action="viewblog" asp-route-Id ="@item.Id" class="float-left read">Read more</a>
 
-                <a href="#" class="float-right meta-chat"><span class="icon-chat"></span> 3</a>
+                <a asp-controller="home" asp-action="viewblog" asp-route-Id ="@item.Id" class="float-right meta-chat"><span class="icon-chat"></span> @item.CommentBlogs.Count()</a>
             </p>
         </div>
     </div>

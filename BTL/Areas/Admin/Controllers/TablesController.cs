@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-
+using BTL.Controllers;
 namespace BTL.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -193,6 +193,61 @@ namespace BTL.Areas.Admin.Controllers
         {
             List<Contact> list = db.Contacts.ToList();
             return View(list);
+        }
+        [HttpGet]
+        [Route("api/hangton")]
+        public async Task<List<HangTon>> HangTons(DateTime ngay)
+        {
+            try
+            {
+                var hangTons = await db.HangHoas
+                    .Where(hh => hh.NgayNhap <= ngay)
+                    .Select(hh => new HangTon
+                    {
+                        TenHH = hh.TenHh,
+                        TonKho = hh.Sl - db.ChitietHdns.Where(cthdn => cthdn.IdHh == hh.Id).Sum(cthdn => (int?)cthdn.Sl) ?? 0
+                            + db.ChitietHdxes.Where(cthdx => cthdx.IdHh == hh.Id).Sum(cthdx => (int?)cthdx.Sl) ?? 0,
+                        NgayNhap = hh.NgayNhap
+                    })
+                    .OrderByDescending(ir => ir.TonKho)
+                    .ToListAsync();
+
+                return hangTons;
+            }
+            catch (Exception ex)
+            {
+                return new List<HangTon>();
+            }
+
+        }
+        [HttpGet]
+        [Route("api/doanhthu")]
+        public List<DoanhThu> DoanhThu(int nam)
+        {
+            List<DoanhThu> doanhThus = new List<DoanhThu>();
+            for (int i  = 1; i <= 12; i++)
+            {
+                DoanhThu doanhThu = new DoanhThu
+                {
+                    Thang = "Tháng " + i.ToString(),
+                    TongTien = (double) db.HoaDonBans.Where(x => x.NgayXuat.Year == nam && x.NgayXuat.Month == i).Sum(x => x.TongTien)
+                };
+                doanhThus.Add(doanhThu);
+            }
+            return doanhThus;
+        }
+        [Route("TableReport")]
+        public async Task<IActionResult> TableReport()
+        {
+            List<HangTon> list = await HangTons(DateTime.Now);
+            return View(list);
+        }
+
+        [Route("TableDoanhThu")]
+        public async Task<IActionResult> TableDoanhThu()
+        {
+            List<DoanhThu> doanhThus = DoanhThu(DateTime.Now.Year);
+            return View(doanhThus);
         }
     }
 }

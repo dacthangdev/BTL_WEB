@@ -16,4 +16,6 @@ public partial class Tuser
     public byte? LoaiUser { get; set; }
     [DisplayName("Họ Tên")]
     public string HoTen { get; set; } = null!;
+
+    public virtual ICollection<CommentBlog> CommentBlogs { get; } = new List<CommentBlog>();
 }

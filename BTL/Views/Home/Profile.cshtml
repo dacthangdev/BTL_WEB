@@ -3,7 +3,7 @@
     ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
-
+@model Tuser
     <section class="hero-wrap hero-wrap-2" style="background-image: url('../main/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
@@ -58,6 +58,10 @@
 
                 <li class="nav-item">
                   <button class="nav-link ftco-animate" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab" aria-controls="v-pills-3" aria-selected="false">Change Password</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link ftco-animate" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-4" role="tab" aria-controls="v-pills-4" aria-selected="false">Order List</button>
                 </li>
 
               </ul>
@@ -177,12 +181,67 @@
                     </div>
 
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Change Password</button>
+                      <input onclick="changePassWord()" class="btn btn-primary" value="Change Password" readonly></input>
                     </div>
                   </form><!-- End Change Password Form -->
 
                 </div>
-
+                <div class="tab-pane fade pt-3" id="v-pills-4">
+                @if (ViewBag.ListHD != null){
+                  <!-- Change Password Form -->
+                  <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Số hóa đơn
+                            </th>
+                            <th>
+                                Ngày đặt
+                            </th>
+                            <th>
+                                Tổng tiền
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    @foreach (HoaDonBan item in @ViewBag.ListHD) {
+                            <tr>
+                                <td>
+                                    @item.Id
+                                </td>
+                                <td>
+                                    @item.SoHd
+                                </td>
+                                <td>
+                                    @item.NgayXuat
+                                </td>
+                                <td>
+                                    @item.TongTien
+                                </td>
+                                <td>
+                                    <button onclick="showDetails(@item.Id)" >Chi tiết hóa đơn</button>
+                                </td>
+                            </tr>
+                    }
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    
+                    <div id="details">
+                    </div>
+                
+                }
+                else{
+                    <h2> Chưa có đơn hàng</h2>
+                }
+                </div>
               </div><!-- End Bordered Tabs -->
 
             </div>
@@ -191,3 +250,78 @@
         </div>
       </div>
     </section>
+@section Scripts{
+ <script>
+    function showDetails(id) {
+        var url = 'https://localhost:7000/api/cart/details?id=' + id;
+        console.log("")
+        var str = `<h2>Chi tiết đơn hàng</h2>
+        <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Số lượng
+                            </th>
+                            <th>
+                                Giá Tiền
+                            </th>
+                            <th>
+                                Tên món ăn
+                            </th
+                            <th></th>
+                        </tr>
+                    </thead>
+                <tbody>
+        `;
+        $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (key, val) {
+                    str += `
+                        <tr>
+                <td>
+                    ${val.sl}
+                </td>
+                <td>
+                    ${val.giaTien}
+                </td>
+                <td>
+                     ${val.menu}
+                </td>
+            </tr>`
+                });
+                str +=`</tbody>
+                    </table>`
+                $('#details').html(str);
+            },
+            Error: function (xhr) {
+                alert(xhr.reponseText)
+            }
+        });
+    };
+function changePassWord() { 
+
+    // Create a new FormData objec
+	var url = 'https://localhost:7000/api/changePassword?old_pw=' + $('#currentPassword').val() + '&new_pw='+$('#newPassword').val()+'&check_new_pw='+$('#renewPassword').val();
+	$.ajax({
+		url: url,
+	    method: 'POST',
+	    contentType: 'json',
+	    dataType: 'json',
+	    error: function (response) {
+		    alert("Thay đổi mật khẩu thất bại");
+		    },
+	    success: function (reponse) {
+            if (reponse == true){
+                alert("Thay đổi mật khẩu thành công");
+            }
+		    else{
+                alert("Mật khẩu hoặc nhập lại mật khẩu không đồng nhất");
+            }
+		}
+	});
+}
+</script>
+}

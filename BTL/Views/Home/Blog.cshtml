@@ -3,7 +3,6 @@
     ViewData["Title"] = "Blog";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
-
     <section class="hero-wrap hero-wrap-2" style="background-image: url('../main/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
@@ -17,6 +16,7 @@
     </section>
 		
 		<section class="ftco-section bg-light">
+            <h2 onclick="openModal()" style="text-align: center;">Post Blog</h2>
 			<div class="container">
 				<div class="row">
           
@@ -24,3 +24,94 @@
         </div>
 			</div>
 		</section>
+
+<dialog id="myDialog">
+   @{
+       @using (Html.BeginForm("PostBlog", "Home", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+   }
+    
+   <div>
+    <div>
+        <form  method="post">
+            <div>
+                <label>Image</label>
+                <input id="file" type="file" name="formFile" enctype="multipart/form-data" />
+            </div>
+             <div>
+                <label>Title</label>
+                <input type="text" id="title" class="form-control" placeholder="Title"></input>
+            </div>
+            <div>
+                <label>Content</label>
+                <textarea name="" id="content" cols="30" rows="7" class="form-control" placeholder="Content"></textarea>
+            </div>
+            <div style="margin-bottom: 20px; margin-top: 15px;">
+                <input onclick="PostABlog()" value="Post" class="btn btn-primary" readonly/>
+                
+            </div>
+            <div>
+                <input onclick="closeModal()" value="Cancle" class="btn btn-primary" readonly/>
+            </div>
+        </form>
+    </div>
+</div>
+</dialog>
+@section Scripts{
+<script>
+    function openModal() {
+  var dialog = document.getElementById("myDialog");
+  dialog.showModal();
+};
+function closeModal() {
+  var dialog = document.getElementById("myDialog");
+  dialog.close();
+};
+function PostABlog() { 
+    $.ajax({
+    type: 'GET',
+    url: 'https://localhost:7000/api/session',
+    dataType: 'json',
+    success: function (data) {
+            if (data == false){
+                window.location.href = 'https://localhost:7000/home/login';
+            }
+            else{
+               var fileInput = $('#file')[0];
+
+                // Create a new FormData object
+                var formData = new FormData();
+
+                // Append the file to the FormData object
+                formData.append('formFile', fileInput.files[0]);
+
+                // Append the other form data to the FormData object
+                formData.append('content', $('#content').val());
+                formData.append('title', $('#title').val());
+
+                // Make an AJAX request to upload the data
+                $.ajax({
+                    url: 'https://localhost:7000/api/postblog',
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    error: function (response) {
+                        alert("Đã sảy ra lỗi khi đăng bài");
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response === true){
+                            alert("Đăng bài thành công");
+                            closeModal();
+                        }
+                        else {
+                            alert("Đã sảy ra lỗi khi đăng bài");
+                        }
+                    }
+                });
+            }
+        }
+    });	
+};
+</script>
+}

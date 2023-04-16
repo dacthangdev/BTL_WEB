@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewData["Title"] = "TableDoanhThu";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdminMain.cshtml";
+}
+@model IEnumerable<BTL.Models.DoanhThu>
+<h1>Bảng Doanh thu</h1>
+
+<input type="number" class="form-control" id="date_report" placeholder="Year">
+<p onclick="showReport()" class="btn btn-success" readonly>View Report</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tháng
+            </th>
+            <th>
+                Tổng tiền
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="Report">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Thang
+                </td>
+                <td>
+                    @item.TongTien
+                </td>
+            </tr>
+        }
+    </tbody>
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+</table>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script>
+    var myChart;
+    var url = 'https://localhost:7000/Admin/api/doanhthu?nam=2023';
+    console.log(url)
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var months = [];
+            var revenues = [];
+            $.each(data, function (index, element) {
+                console.log(index);
+                console.log(element);
+                months.push(element.thang);
+                revenues.push(element.tongTien);
+            });
+            var ctx = document.getElementById('myChart').getContext('2d');
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Doanh thu theo tháng',
+                        data: revenues,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+            });
+        }
+    });
+    function showReport() {
+        const dateInput = document.getElementById('date_report');
+        const dateValue = dateInput.value;
+        var url = 'https://localhost:7000/Admin/api/doanhthu?nam=' + dateValue
+        var str = '';
+        $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'json',
+            success: function (data) {
+                var months = [];
+                var revenues = [];
+                $.each(data, function (key, val) {
+                    str += `
+                            <tr>
+                    <td>
+                    ${val.thang}
+                    </td>
+                    <td>
+                    ${val.tongTien}
+                    </td>
+                </tr>`;
+                    months.push(val.thang);
+                    revenues.push(val.tongTien);
+                });
+                $('#Report').html(str);
+                myChart.data.labels = months;
+                myChart.data.datasets[0].data = revenues;
+                myChart.update();
+            },
+            Error: function (xhr) {
+                alert(xhr.reponseText)
+            }
+        });
+    };
+</script>

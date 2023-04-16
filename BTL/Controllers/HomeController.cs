@@ -17,7 +17,7 @@ namespace BTL.Controllers
     {
         CsdlwebContext db= new CsdlwebContext();
         private readonly ILogger<HomeController> _logger;
-
+        static string anhblog;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -59,7 +59,7 @@ namespace BTL.Controllers
         {
             int pageSize = 6;
             int pageNumber = page == null || page < 0 ? 1 : page.Value;
-            var lstblog = db.Blogs.AsNoTracking().OrderBy(x => x.Id);
+            var lstblog = db.Blogs.AsNoTracking().Include(x=>x.CommentBlogs).OrderBy(x => x.NgayDang).Reverse();
             PagedList<Blog> lst = new PagedList<Blog>(lstblog, pageNumber, pageSize);
 
             return View(lst);
@@ -67,6 +67,29 @@ namespace BTL.Controllers
         public IActionResult ViewBlog(int? id)
         {
             var lst = db.Blogs.Where(x => x.Id == id).ToList();
+            List<CommentBlog> commentBlogs = db.CommentBlogs.Include(x=>x.IdUserNavigation).Where(x => x.IdBlog == id).ToList();
+            List<Comments> comments = new List<Comments>();
+            foreach (var item in commentBlogs)
+            {
+                Comments comment = new Comments
+                {
+                    User = item.IdUserNavigation.HoTen,
+                    Content = item.Content,
+                };
+                comments.Add(comment);
+            }
+            if (comments.Count() > 0)
+            {
+                ViewBag.Comments = comments;
+            }
+            if (HttpContext.Session.Get<Tuser>("UserName") != null)
+            {
+                ViewBag.User = HttpContext.Session.Get<Tuser>("UserName");
+            }
+            else if (HttpContext.Session.Get<Tuser>("Manager") != null)
+            {
+                ViewBag.User = HttpContext.Session.Get<Tuser>("Manager");
+            }
             return View(lst);
         }
         public IActionResult Privacy()
@@ -189,8 +212,216 @@ namespace BTL.Controllers
             if (khachHang != null)
             {
                 ViewBag.Profile = khachHang;
+                List<HoaDonBan> hoaDonBans = db.HoaDonBans.Where(x => x.IdKh == khachHang.Id).ToList();
+                ViewBag.ListHD = hoaDonBans;
             }
             return View(tuser);
         }
+        [HttpGet]
+        [Route("api/session")]
+        public bool GetSessionData()
+        {
+            if (HttpContext.Session.Get<Tuser>("UserName") != null)
+            {
+               
+                return true;
+            }
+            else if (HttpContext.Session.Get<Tuser>("Manager") != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        [HttpPost]
+        [Route("api/postblog")]
+        public bool PostBlog(IFormFile formFile, string content, string title)
+        {
+            Tuser tuser = new Tuser();
+            if (HttpContext.Session.Get<Tuser>("UserName") != null)
+            {
+                tuser = HttpContext.Session.Get<Tuser>("UserName");
+            }
+            else if (HttpContext.Session.Get<Tuser>("Manager") != null)
+            {
+                tuser = HttpContext.Session.Get<Tuser>("Manager");
+            }
+            Blog blog = new Blog
+            {
+                NgayDang = DateTime.Now,
+                NoiDung = content,
+                TacGia = tuser.HoTen,
+                TieuDe = title
+            };
+            Guid guid = Guid.NewGuid();
+
+            string newfileName = guid.ToString();
+
+            string fileextention = Path.GetExtension(formFile.FileName);
+
+            string fileName = newfileName + fileextention;
+
+            string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Blog", fileName);
+
+            var stream = new FileStream(uploadpath, FileMode.Create);
+
+            formFile.CopyToAsync(stream);
+            blog.Anh = fileName.ToString();
+            try
+            {
+                db.Add(blog);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        [HttpDelete]
+        [Route("api/deleteblog")]
+        public bool DeleteBlog(int ID)
+        {
+            try
+            {
+                List<CommentBlog> comments = db.CommentBlogs.Where(x => x.IdBlog == ID).ToList();
+                foreach (CommentBlog comment in comments)
+                {
+                    db.Remove(comment);
+                }
+                db.SaveChanges();
+                db.Remove(db.Blogs.Find(ID));
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        [HttpGet]
+        [Route("api/editblog")]
+        public Blog editblog(int ID)
+        {
+            try
+            {
+                anhblog = db.Blogs.Find(ID).Anh;
+                return db.Blogs.Find(ID);
+            }
+            catch (Exception ex)
+            {
+                return new Blog();
+            }
+        }
+
+        [HttpPost]
+        [Route("api/editblog")]
+        public bool editblog(int ID, IFormFile formFile, string content, string title)
+        {
+            Blog blog = db.Blogs.Find(ID);
+            blog.NgayDang = DateTime.Now;
+            blog.NoiDung = content;
+            blog.TieuDe = title;
+            if (formFile != null)
+            {
+                Guid guid = Guid.NewGuid();
+
+                string newfileName = guid.ToString();
+
+                string fileextention = Path.GetExtension(formFile.FileName);
+
+                string fileName = newfileName + fileextention;
+
+                string uploadpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Blog", fileName);
+
+                var stream = new FileStream(uploadpath, FileMode.Create);
+
+                formFile.CopyToAsync(stream);
+
+                blog.Anh = fileName.ToString();
+            }
+            else { blog.Anh = anhblog; }
+            db.Update(blog);
+            db.SaveChanges();
+            return true;
+            //try
+            //{
+            //    db.Update(blog);
+            //    db.SaveChanges();
+            //    return true;
+            //}
+            //catch (Exception e)
+            //{
+            //    return false;
+            //}
+        }
+
+        [HttpGet]
+        [Route("api/post/comments")]
+        public List<Comments> PostComment(int ID_Blog, string Content)
+        {
+            Tuser tuser = new Tuser();
+            if (HttpContext.Session.Get<Tuser>("UserName") != null)
+            {
+                tuser = HttpContext.Session.Get<Tuser>("UserName");
+            }
+            else if (HttpContext.Session.Get<Tuser>("Manager") != null)
+            {
+                tuser = HttpContext.Session.Get<Tuser>("Manager");
+            }
+            CommentBlog commentBlog = new CommentBlog
+            {
+                IdBlog = ID_Blog,
+                IdUser = tuser.Username,
+                Content = Content
+            };
+            db.Add(commentBlog);
+            db.SaveChanges();
+            List<CommentBlog> commentBlogs = db.CommentBlogs.Include(x => x.IdUserNavigation).Where(x => x.IdBlog == ID_Blog).ToList();
+            List<Comments> comments = new List<Comments>();
+            foreach (var item in commentBlogs)
+            {
+                Comments comment = new Comments
+                {
+                    User = item.IdUserNavigation.HoTen,
+                    Content = item.Content,
+                };
+                comments.Add(comment);
+            }
+            return comments;
+        }
+        [HttpPost]
+        [Route("api/changePassword")]
+        public bool changePassword(string old_pw,string new_pw, string check_new_pw)
+        {
+            Tuser tuser = new Tuser();
+            if (HttpContext.Session.Get<Tuser>("UserName") != null)
+            {
+                tuser = HttpContext.Session.Get<Tuser>("UserName");
+            }
+            else if (HttpContext.Session.Get<Tuser>("Manager") != null)
+            {
+                tuser = HttpContext.Session.Get<Tuser>("Manager");
+            }
+            if (!tuser.Password.Trim().Equals(old_pw))
+            {
+                return false;
+            } 
+            if (!new_pw.Equals(check_new_pw))
+            {
+                return false;
+            }
+            tuser.Password = new_pw;
+            db.Update(tuser);
+            db.SaveChanges();
+            HttpContext.Session.Clear();
+            HttpContext.Session.Remove("UserName");
+            HttpContext.Session.Remove("Mangager");
+            return true;
+        }
+
     }
 }

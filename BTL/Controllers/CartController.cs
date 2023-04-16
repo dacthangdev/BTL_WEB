@@ -120,11 +120,20 @@ namespace BTL.Controllers
 
         }
 
-        [HttpGet]
-        public IActionResult CheckOut()
+		[HttpGet]
+		public IActionResult CheckOut()
 		{
 			KhachHang customer = new KhachHang();
 			var user = HttpContext.Session.Get<Tuser>("UserName");
+            if (HttpContext.Session.Get<Tuser>("UserName") != null)
+			{
+				user = HttpContext.Session.Get<Tuser>("UserName");
+
+			}
+			else if (HttpContext.Session.Get<Tuser>("Manager") != null)
+			{
+                user = HttpContext.Session.Get<Tuser>("Manager");
+            }
 			if (user != null)
 			{
                 customer = db.KhachHangs.Where(x => x.Email.Equals(user.Email)).FirstOrDefault();
@@ -182,6 +191,25 @@ namespace BTL.Controllers
                 return View(ShoppingCarts);
 			}
             return View();
+        }
+		[Route("api/cart/details")]
+		[HttpGet]
+		public List<OrderDetail> getDetailCTHDB(int id)
+		{
+            List<ChitietHdb> chitietHdbs = db.ChitietHdbs.Where(x => x.IdHdb == id).ToList();
+			List<OrderDetail> orderDetails = new List<OrderDetail>();
+			foreach(var item in chitietHdbs)
+			{
+				Menu menu = db.Menus.Where(x=>x.Id == item.IdMenu).FirstOrDefault();
+				OrderDetail orderDetail = new OrderDetail
+				{
+					Sl = item.Sl,
+					GiaTien = item.GiaTien,
+					menu = menu.TenMon
+				};
+				orderDetails.Add(orderDetail);
+			}
+            return orderDetails;
         }
     }
 }
